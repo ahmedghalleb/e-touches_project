@@ -131,7 +131,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 4;
         }
 
         @Override
@@ -144,6 +144,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     return getString(R.string.title_section2).toUpperCase(l);
                 case 2:
                     return getString(R.string.title_section3).toUpperCase(l);
+                case 3:
+                    return getString(R.string.title_section4).toUpperCase(l);
             }
             return null;
         }
@@ -178,6 +180,25 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            TextView sectionTextView = (TextView) rootView.findViewById(R.id.section_label);
+            int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
+            switch (sectionNumber) {
+			case 1:
+				sectionTextView.setText(getString(R.string.title_section1).toUpperCase());
+				break;
+			case 2:
+				sectionTextView.setText(getString(R.string.title_section2).toUpperCase());
+				break;
+			case 3:
+				sectionTextView.setText(getString(R.string.title_section3).toUpperCase());
+				break;
+			case 4:
+				sectionTextView.setText(getString(R.string.title_section4).toUpperCase());
+				break;
+			default:
+				sectionTextView.setText(getString(R.string.title_section1).toUpperCase());
+				break;
+			}
             return rootView;
         }
     }
