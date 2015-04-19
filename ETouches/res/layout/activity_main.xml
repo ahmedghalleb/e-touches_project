@@ -3,5 +3,5 @@
     android:id="@+id/pager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.echances.etouches.MainActivity" />
+    tools:context="com.echances.etouches.activities.MainActivity" />
 
