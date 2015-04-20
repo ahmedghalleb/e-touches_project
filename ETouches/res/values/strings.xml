@@ -2,10 +2,10 @@
 <resources>
 
     <string name="app_name">ETouches</string>
-    <string name="title_section1">Setting</string>
-    <string name="title_section2">Mes services</string>
+    <string name="title_section1">My services</string>
+    <string name="title_section2">Setting</string>
     <string name="title_section3">Schedule</string>
-    <string name="title_section4">Mes reservations</string>
+    <string name="title_section4">Reservations</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
