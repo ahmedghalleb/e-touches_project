@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    tools:ignore="MissingPrefix">
+
+   
+    <ImageView
+            android:id="@+id/imageHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_launcher" />
+
+    <Button
+        android:id="@+id/connection_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/inscription_button"
+        android:layout_centerHorizontal="true"
+        android:text="CONNEXION"/>
+    <Button
+        android:id="@+id/inscription_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/later_button"
+        android:text="INSCRIPTION" />
+    
+    <Button
+        android:id="@+id/later_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="PLUS_TARD"/>
+
+
+
+</RelativeLayout>
