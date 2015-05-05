@@ -19,6 +19,6 @@ public class Response {
 	}
 	
 	public boolean isSucces(){
-		return getCode() == 1;
+		return getCode() == 1 || getCode() == 0;
 	}
 }

@@ -8,9 +8,12 @@ import android.util.Log;
 import com.echances.etouches.R;
 import com.echances.etouches.activities.BaseActivity;
 import com.echances.etouches.application.EchouchesApplication;
+import com.echances.etouches.model.GetServicesResponse;
+import com.echances.etouches.model.LoginResponse;
 import com.echances.etouches.model.Response;
 import com.echances.etouches.utilities.Constants.HTTPConstantParams;
 import com.echances.etouches.utilities.Constants.ParamsWebService;
+import com.echances.etouches.webservices.GetServicesRequest;
 import com.echances.etouches.webservices.LoginRequest;
 import com.echances.etouches.webservices.SubscriptionRequest;
 import com.octo.android.robospice.persistence.DurationInMillis;
@@ -39,7 +42,7 @@ public class WebServiceApiImp implements WebServiceApi
 	/**
 	 * the listener of web services requests
 	 */
-	private WebServiceWaitingListener	mValidateUserWebServiceWaitingListener;
+	private WebServiceWaitingListener	mWebServiceWaitingListener;
 
 	/**
 	 * the instance of WebServiceApiImp class
@@ -59,16 +62,14 @@ public class WebServiceApiImp implements WebServiceApi
 	public void Login (String login, String password,
 			WebServiceWaitingListener webServiceWaitingListener)
 	{
-		mValidateUserWebServiceWaitingListener = webServiceWaitingListener;
-		mValidateUserWebServiceWaitingListener.OnWebServiceWait();
+		mWebServiceWaitingListener = webServiceWaitingListener;
+		mWebServiceWaitingListener.OnWebServiceWait();
 		if (EchouchesApplication.checkInternetConnection()) {
 			HashMap<String, String> params = new HashMap<String, String>();
 
-			params.put(HTTPConstantParams.LOGIN, login);
+			params.put(HTTPConstantParams.MOBILE, login);
 			params.put(HTTPConstantParams.PASSWORD, password);
 			
-			params.put(HTTPConstantParams.LANG,
-					ParamsWebService.LANG);
 			LoginRequest mLoginRequest = new LoginRequest(params);
 			mActivity.getSpiceManager()
 					.execute(
@@ -78,7 +79,7 @@ public class WebServiceApiImp implements WebServiceApi
 							new LoginRequestListener());
 		}
 		else {
-			mValidateUserWebServiceWaitingListener.OnWebServiceEnd(false,
+			mWebServiceWaitingListener.OnWebServiceEnd(false,
 					"WEB_SERVICE_NO_INTERNET",
 					null);
 		}
@@ -89,8 +90,8 @@ public class WebServiceApiImp implements WebServiceApi
 			String mobile, int type,
 			WebServiceWaitingListener webServiceWaitingListener)
 	{
-		mValidateUserWebServiceWaitingListener = webServiceWaitingListener;
-		mValidateUserWebServiceWaitingListener.OnWebServiceWait();
+		mWebServiceWaitingListener = webServiceWaitingListener;
+		mWebServiceWaitingListener.OnWebServiceWait();
 		if (EchouchesApplication.checkInternetConnection()) {
 			HashMap<String, String> params = new HashMap<String, String>();
 
@@ -107,25 +108,49 @@ public class WebServiceApiImp implements WebServiceApi
 							mSubscriptionRequest,
 							generateCacheKey(SubscriptionRequest.class.getName(),
 									params), DurationInMillis.ALWAYS_EXPIRED,
-							new LoginRequestListener());
+							new WSRequestListener());
 		}
 		else {
-			mValidateUserWebServiceWaitingListener.OnWebServiceEnd(false,
+			mWebServiceWaitingListener.OnWebServiceEnd(false,
 					"WEB_SERVICE_NO_INTERNET",
 					null);
 		}
 	}
 
+	@Override
+	public void GetServices (WebServiceWaitingListener webServiceWaitingListener)
+	{
+		mWebServiceWaitingListener = webServiceWaitingListener;
+		mWebServiceWaitingListener.OnWebServiceWait();
+		if (EchouchesApplication.checkInternetConnection()) {
+			HashMap<String, String> params = new HashMap<String, String>();
+
+			GetServicesRequest mGetServicesRequest = new GetServicesRequest(
+					params);
+			mActivity.getSpiceManager()
+					.execute(
+							mGetServicesRequest,
+							generateCacheKey(GetServicesRequest.class.getName(),
+									params), DurationInMillis.ALWAYS_EXPIRED,
+							new GetServicesRequestListener());
+		}
+		else {
+			mWebServiceWaitingListener.OnWebServiceEnd(false,
+					"WEB_SERVICE_NO_INTERNET",
+					null);
+		}
+	}
+	
 	// listener
-	private class LoginRequestListener implements RequestListener<Response>
+	private class WSRequestListener implements RequestListener<Response>
 	{
 
 		@Override
 		public void onRequestFailure (SpiceException arg0)
 		{
 
-			if (mValidateUserWebServiceWaitingListener != null)
-				mValidateUserWebServiceWaitingListener.OnWebServiceEnd(false,
+			if (mWebServiceWaitingListener != null)
+				mWebServiceWaitingListener.OnWebServiceEnd(false,
 						"WEB_SERVICE_ON_FAIL",
 						null);
 		}
@@ -139,20 +164,91 @@ public class WebServiceApiImp implements WebServiceApi
 			if (result.isSucces()) {
 
 				Log.e("WebServiceRetour", "response = " + result);
-				if (mValidateUserWebServiceWaitingListener != null)
-					mValidateUserWebServiceWaitingListener.OnWebServiceEnd(
+				if (mWebServiceWaitingListener != null)
+					mWebServiceWaitingListener.OnWebServiceEnd(
 							true, "", result);
 			}
 			else {
 				Log.e("WebServiceRetour", "getErrorCode= " + result.getCode());
-				if (mValidateUserWebServiceWaitingListener != null)
-					mValidateUserWebServiceWaitingListener.OnWebServiceEnd(
+				if (mWebServiceWaitingListener != null)
+					mWebServiceWaitingListener.OnWebServiceEnd(
 							false, result.getMessage(),
 							result);
 			}
 		}
 	}
 
+	private class LoginRequestListener implements RequestListener<LoginResponse>
+	{
+
+		@Override
+		public void onRequestFailure (SpiceException arg0)
+		{
+
+			if (mWebServiceWaitingListener != null)
+				mWebServiceWaitingListener.OnWebServiceEnd(false,
+						"WEB_SERVICE_ON_FAIL",
+						null);
+		}
+
+		@Override
+		public void onRequestSuccess (LoginResponse result)
+		{
+
+			Log.e("WebServiceRetour", "getStatus= " + result.getCode());
+
+			if (result.isSucces()) {
+
+				Log.e("WebServiceRetour", "response = " + result);
+				if (mWebServiceWaitingListener != null)
+					mWebServiceWaitingListener.OnWebServiceEnd(
+							true, "", result);
+			}
+			else {
+				Log.e("WebServiceRetour", "getErrorCode= " + result.getCode());
+				if (mWebServiceWaitingListener != null)
+					mWebServiceWaitingListener.OnWebServiceEnd(
+							false, result.getMessage(),
+							result);
+			}
+		}
+	}
+
+	private class GetServicesRequestListener implements RequestListener<GetServicesResponse>
+	{
+
+		@Override
+		public void onRequestFailure (SpiceException arg0)
+		{
+
+			if (mWebServiceWaitingListener != null)
+				mWebServiceWaitingListener.OnWebServiceEnd(false,
+						"WEB_SERVICE_ON_FAIL",
+						null);
+		}
+
+		@Override
+		public void onRequestSuccess (GetServicesResponse result)
+		{
+
+			Log.e("WebServiceRetour", "getStatus= " + result.getCode());
+
+			if (result.isSucces()) {
+
+				Log.e("WebServiceRetour", "response = " + result);
+				if (mWebServiceWaitingListener != null)
+					mWebServiceWaitingListener.OnWebServiceEnd(
+							true, "", result);
+			}
+			else {
+				Log.e("WebServiceRetour", "getErrorCode= " + result.getCode());
+				if (mWebServiceWaitingListener != null)
+					mWebServiceWaitingListener.OnWebServiceEnd(
+							false, result.getMessage(),
+							result);
+			}
+		}
+	}
 	
 	/**
 	 * 	 * Generate a key that will be used in caching Web service response,The key

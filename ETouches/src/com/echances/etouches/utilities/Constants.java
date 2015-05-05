@@ -91,7 +91,8 @@ public final class Constants
 		
 
 		public static final String	SUBSCRIPTION			= "/reg_user.ashx";
-		public static final String	LOGIN					= "/login";
+		public static final String	LOGIN					= "/auth_user.ashx";
+		public static final String	GETSERVICES					= "/get_services.ashx";
 		
 
 		public final int			timeout					= 30000;

@@ -23,6 +23,8 @@ import android.widget.TextView;
 @SuppressLint ("InlinedApi")
 public class DialogsModels
 {
+	
+	static ProgressDialog mLoadingDialog;
 	/**
 	 * Method used to show Confirmation Dialog
 	 * 
@@ -107,8 +109,50 @@ public class DialogsModels
 		return barProgressDialog;
 
 	}
-
 	
+	public static void showLoadingDialog(Context activity){
+		
+		mLoadingDialog = new ProgressDialog(activity,
+				ProgressDialog.THEME_HOLO_LIGHT);
 
+		mLoadingDialog.setMessage("Loading ...");
+
+		mLoadingDialog.setIndeterminate(true);
+		
+		mLoadingDialog.setCancelable(false);
+		
+		mLoadingDialog.show();
+		
+	}
+	
+	public static void showErrorDialog(Context activity, String message){
+		
+//		TextView titleTextView = new TextView(activity);
+//		titleTextView.setText("Error");
+//		titleTextView.setGravity(Gravity.CENTER);
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(activity,
+				AlertDialog.THEME_HOLO_LIGHT);
+		builder.setMessage(message);
+		builder.setTitle("Error");
+
+		builder.setNegativeButton("OK", new OnClickListener()
+		{
+			@Override
+			public void onClick (DialogInterface dialog, int which)
+			{
+				dialog.dismiss();
+			}
+		});
+
+		AlertDialog alert = builder.create();
+
+		alert.show();
+	}
+	
+	public static void hideLoadingDialog(){
+		if(mLoadingDialog != null && mLoadingDialog.isShowing())
+			mLoadingDialog.cancel();
+	}
 	
 }

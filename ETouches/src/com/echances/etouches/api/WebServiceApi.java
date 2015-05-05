@@ -44,6 +44,8 @@ public interface WebServiceApi {
 			WebServiceWaitingListener webServiceWaitingListener);
 
 	
+	public void GetServices (WebServiceWaitingListener webServiceWaitingListener);
+	
 	/**
 	 * the call back of web service request interface
 	 * 

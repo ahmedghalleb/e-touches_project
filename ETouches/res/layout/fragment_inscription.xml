@@ -19,8 +19,19 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:ellipsize="end"
-                    android:hint="Choisis_un_pseudo"
+                    android:hint="Enter your Full Name"
                     android:inputType="textPersonName"
+                    android:singleLine="true"/>
+                
+                <EditText
+                    android:id="@+id/phone_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:hint="Enter your phone number"
+                    android:inputType="phone"
                     android:singleLine="true"/>
 
                 <EditText
@@ -29,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:ellipsize="end"
-                    android:hint="Choisis_un_mot_de_passe"
+                    android:hint="Enter your Password"
                     android:inputType="textPassword"
                     android:singleLine="true"/>
 
@@ -39,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:ellipsize="end"
-                    android:hint="Confirme_un_mot_de_passe"
+                    android:hint="Confirm your Password"
                     android:inputType="textPassword"
                     android:singleLine="true"/>
 

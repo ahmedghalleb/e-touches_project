@@ -18,18 +18,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="CONNEXION" />
+            android:text="CONNECTION" />
     </RelativeLayout>
-
-   
 
         <EditText
             android:id="@+id/mail_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:cursorVisible="true"
-            android:hint="Ton_addresse_mail"
-            android:inputType="textEmailAddress"
+            android:hint="Enter your phone number"
+            android:inputType="phone"
             android:singleLine="true"/>
 
 
@@ -39,7 +37,7 @@
             android:layout_height="wrap_content"
             android:cursorVisible="true"
             
-            android:hint="Ton_mot_de_passe"
+            android:hint="Enter your Password"
             android:inputType="textPassword"
             android:singleLine="true" />
 
@@ -49,12 +47,12 @@
         android:id="@+id/connect_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Je_me_connecte" />
+        android:text="Connect" />
 
     <Button
         android:id="@+id/forget_password_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tu_as_oublier_ton_mot_passe"/>
+        android:text="Forget password ?"/>
 
 </LinearLayout>

@@ -10,10 +10,10 @@ import android.net.ConnectivityManager;
 import android.util.Log;
 /**
  * 
- * @file DigiSchoolApplication.java
- * @author Bilel Gaabel
+ * @file EchouchesApplication.java
+ * @author Ahmed Ghalleb
  * @version 1.0
- * @brief * DigiSchool Application Class.
+ * @brief * Echouches Application Class.
  * @details *
  */
 public class EchouchesApplication extends Application {
@@ -24,7 +24,7 @@ public class EchouchesApplication extends Application {
 
     @Override
     public void onCreate() {
-        CalligraphyConfig.initDefault("Fonts/Lato-Regular.ttf", R.attr.fontPath);
+        //CalligraphyConfig.initDefault("Fonts/Lato-Regular.ttf", R.attr.fontPath);
         super.onCreate();
 
         context = getApplicationContext();
@@ -36,17 +36,16 @@ public class EchouchesApplication extends Application {
      * @return Internet connection status
      */
     public static boolean checkInternetConnection() {
-    	return true;
-//        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-//        // test for connection
-//        if (cm.getActiveNetworkInfo() != null
-//                && cm.getActiveNetworkInfo().isAvailable()
-//                && cm.getActiveNetworkInfo().isConnected()) {
-//            return true;
-//        } else {
-//            Log.v("checkInternetConnection", "Internet Connection Not Present");
-//            return false;
-//        }
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        // test for connection
+        if (cm.getActiveNetworkInfo() != null
+                && cm.getActiveNetworkInfo().isAvailable()
+                && cm.getActiveNetworkInfo().isConnected()) {
+            return true;
+        } else {
+            Log.v("checkInternetConnection", "Internet Connection Not Present");
+            return false;
+        }
     }
 
 }

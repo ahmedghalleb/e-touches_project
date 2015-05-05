@@ -1,6 +1,11 @@
 package com.echances.etouches.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -9,6 +14,14 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.echances.etouches.R;
+import com.echances.etouches.activities.BaseActivity;
+import com.echances.etouches.activities.MainActivity;
+import com.echances.etouches.api.WebServiceApiImp;
+import com.echances.etouches.api.WebServiceApi.WebServiceWaitingListener;
+import com.echances.etouches.model.LoginResponse;
+import com.echances.etouches.model.Response;
+import com.echances.etouches.utilities.DialogsModels;
+import com.echances.etouches.utilities.Logr;
 import com.echances.etouches.utilities.Utils;
 
 /**
@@ -23,6 +36,8 @@ import com.echances.etouches.utilities.Utils;
 public class LoginFragment extends BaseFragment
 {
 
+	String TAG = "LoginFragment";
+	
     Button mLoginButton,forgetPasswordButton;
     EditText mMailEditText, mPasswordEditText;
 
@@ -57,6 +72,8 @@ public class LoginFragment extends BaseFragment
             public void onClick(View v) {
                 if(isValideFields())
                     Login();
+                else
+                	DialogsModels.showErrorDialog(getActivity(),  "Please verify all fields");
             }
         });
 
@@ -65,19 +82,55 @@ public class LoginFragment extends BaseFragment
             @Override
             public void onClick(View v) {
                 
+            	SendMailForget();
                 
             }
         });
 
     }
-    /**
+    
+    protected void SendMailForget() {
+		// TODO Auto-generated method stub
+    	AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), AlertDialog.THEME_HOLO_LIGHT);
+		builder.setTitle("Enter you Email, to recover your password");
+		// Set up the input
+		final EditText input = new EditText(getActivity());
+		// Specify the type of input expected;
+		input.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+		
+		input.setHint("Enter you Email");
+		
+		builder.setView(input);
+
+		// Set up the buttons
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { 
+		    @Override
+		    public void onClick(DialogInterface dialog, int which) {
+		        String text = input.getText().toString();
+		        Log.i(TAG, text);
+		        dialog.cancel();
+		    }
+		});
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		    @Override
+		    public void onClick(DialogInterface dialog, int which) {
+		        dialog.cancel();
+		    }
+		});
+
+		AlertDialog alert = builder.create();
+
+		alert.show();
+	}
+
+	/**
      * Method used to Validate Fields
      * @return boolean
      */
     private boolean isValideFields(){
 
       
-            if(Utils.isEmailValid(mMailEditText.getText().toString()))
+            if(!mMailEditText.getText().toString().equals("") && !mPasswordEditText.getText().toString().equals(""))
                 return true;
             else
                 return false;
@@ -97,53 +150,45 @@ public class LoginFragment extends BaseFragment
      */
     public void Login(){
 
+    	DialogsModels.showLoadingDialog(getActivity());
+		WebServiceApiImp.getInstance((BaseActivity) getActivity()).Login(mMailEditText.getText().toString(),
+				mPasswordEditText.getText().toString(),
+		new WebServiceWaitingListener() {
 
-//        if(!SnapSchoolApplicationCache.getInstance().getmProgressDialog("LoginFragment").isShowing())
-//            SnapSchoolApplicationCache.getInstance().getmProgressDialog("LoginFragment").show();
-//        WebServiceApiImp.getInstance((BaseActivity)getActivity()).Login(mMailEditText.getText().toString(),  mPasswordEditText.getText().toString(), new WebServiceWaitingListener() {
-//            @Override
-//            public void OnWebServiceProgress(float value) {
-//                // TODO Auto-generated method stub
-//
-//            }
-//            @Override
-//            public void OnWebServiceWait() {
-//
-//                //DigiSchoolApplicationCache.getInstance().getmProgressDialog("LoginFragment") = DialogsModels.ProgressingDialog(getActivity(), getString(R.string.DigiSchoolApplicationCache.getInstance().getmProgressDialog("LoginFragment")_loading));
-//                if(!SnapSchoolApplicationCache.getInstance().getmProgressDialog("LoginFragment").isShowing())
-//                    SnapSchoolApplicationCache.getInstance().getmProgressDialog("LoginFragment").show();
-//            }
-//
-//            @Override
-//            public void OnWebServiceEnd(boolean statut, String message, Object data) {
-//                // TODO Auto-generated method stub
-//                Logr.w("WS message="+message);
-//                if(SnapSchoolApplicationCache.getInstance().getmProgressDialog("LoginFragment") != null && SnapSchoolApplicationCache.getInstance().getmProgressDialog("LoginFragment").isShowing())
-//                    SnapSchoolApplicationCache.getInstance().getmProgressDialog("LoginFragment").cancel();
-//                if(statut){
-//
-//                    UserResponse result=new UserResponse();
-//                    try {
-//                        result= ((UserResponse)data);
-//                    } catch (Exception e) {
-//                        // TODO: handle exception
-//                    }
-//
-//                    Logr.w("WS getCodeRetour="+result.getCodeRetour());
-//                    Logr.w("WS toString="+result.toString());
-//                    Logr.w("WS getToken="+result.getToken());
-//
-//
-//                    SnapSchoolApplicationCache.getInstance().setUser(result.getUser());
-//                    SnapSchoolApplicationCache.getInstance().setToken(result.getToken());
-//                    getActivity().startActivity(new Intent(getActivity(), MainActivity.class));
-//                    getActivity().finish();
-//                }else{
-//                    
-//                    DialogsModels.WarningDialog(getActivity(), message);
-//                }
-//            }
-//        });
+			@Override
+			public void OnWebServiceWait() {
+			}
+
+			@Override
+			public void OnWebServiceProgress(
+					float value) {
+			}
+
+			@Override
+			public void OnWebServiceEnd(boolean statut, String message, Object data) {
+
+				DialogsModels.hideLoadingDialog();
+				
+				Logr.w("WS message=" + message);
+
+				if (statut) {
+
+					LoginResponse result = new LoginResponse();
+					try {
+						result = ((LoginResponse) data);
+						Log.i(TAG, result.getResult().getMb());
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+					getActivity().startActivity(new Intent(getActivity(),MainActivity.class));
+					getActivity().finish();
+				} else {
+					DialogsModels.showErrorDialog(getActivity(), message);
+				}
+
+			}
+		});
 
     }
 

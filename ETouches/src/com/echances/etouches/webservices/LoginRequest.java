@@ -4,8 +4,11 @@ import java.util.HashMap;
 
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
+import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.QueryMap;
 
+import com.echances.etouches.model.LoginResponse;
 import com.echances.etouches.model.Response;
 import com.echances.etouches.utilities.Constants.ParamsWebService;
 import com.echances.etouches.webservices.LoginRequest.LoginRequestData;
@@ -20,17 +23,17 @@ import com.proxymit.robospice.retrofit.request.RetrofitSpiceRequest;
  * @details *
  * 
  */
-public class  LoginRequest extends RetrofitSpiceRequest<Response, LoginRequestData>
+public class  LoginRequest extends RetrofitSpiceRequest<LoginResponse, LoginRequestData>
 {
     private HashMap<String, String>    params;
 
     public LoginRequest(HashMap<String, String> params2) {
-        super(Response.class, LoginRequestData.class);
+        super(LoginResponse.class, LoginRequestData.class);
         params=params2;
     }
 
     @Override
-    public Response loadDataFromNetwork ()
+    public LoginResponse loadDataFromNetwork ()
     {
         return getService().getLogin(params);
     }
@@ -47,9 +50,8 @@ public class  LoginRequest extends RetrofitSpiceRequest<Response, LoginRequestDa
      */
     public interface LoginRequestData
     {
-        @FormUrlEncoded
-        @POST (ParamsWebService.LOGIN)
-        Response getLogin(@FieldMap HashMap<String, String> params);
+        @GET (ParamsWebService.LOGIN)
+        LoginResponse getLogin(@QueryMap HashMap<String, String> params);
     }
 
 }

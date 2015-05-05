@@ -1,18 +1,28 @@
 package com.echances.etouches.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 
 import com.echances.etouches.R;
+import com.echances.etouches.api.WebServiceApiImp;
+import com.echances.etouches.api.WebServiceApi.WebServiceWaitingListener;
 import com.echances.etouches.fragments.PlaceholderFragment;
+import com.echances.etouches.model.GetServicesResponse;
+import com.echances.etouches.model.LoginResponse;
+import com.echances.etouches.utilities.DialogsModels;
+import com.echances.etouches.utilities.Logr;
 
 
-public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
+public class MainActivity extends BaseActivity implements ActionBar.TabListener {
 
+	String TAG = "MainActivity";
+	
 	public static final int TAB_SERVICES_INDEX = 1;
 	public static final int TAB_SETTING_INDEX = 2;
 	public static final int TAB_SCHEDULE_INDEX = 3;
@@ -51,6 +61,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             .setTabListener(this));
         }
         
+        GetServices();
         
     }
     
@@ -141,6 +152,51 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     public void clearStack() {
         getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+    
+    /**
+     * Method used to Login
+     */
+    public void GetServices(){
+
+    	DialogsModels.showLoadingDialog(this);
+		WebServiceApiImp.getInstance(this).GetServices(
+		new WebServiceWaitingListener() {
+
+			@Override
+			public void OnWebServiceWait() {
+			}
+
+			@Override
+			public void OnWebServiceProgress(
+					float value) {
+			}
+
+			@Override
+			public void OnWebServiceEnd(boolean statut, String message, Object data) {
+
+				DialogsModels.hideLoadingDialog();
+				
+				Logr.w("WS message=" + message);
+
+				if (statut) {
+
+					GetServicesResponse result = new GetServicesResponse();
+					try {
+						result = ((GetServicesResponse) data);
+						Log.i(TAG, result.getServics().get(0).getSEN());
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+					
+				} else {
+					DialogsModels.showErrorDialog(MainActivity.this, message);
+				}
+
+			}
+		});
+
     }
 
 //    @Override

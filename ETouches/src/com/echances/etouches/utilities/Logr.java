@@ -5,7 +5,7 @@ import android.util.Log;
 /** Log utility class to handle the log tag and DEBUG-only logging. */
 public final class Logr {
 	private final static boolean debug = true;
-	private static final String TAG = "digiSchool";
+	private static final String TAG = "E-Touches";
 	
 
 	public static void i(String message) {

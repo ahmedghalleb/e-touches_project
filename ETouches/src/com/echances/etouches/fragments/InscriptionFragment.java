@@ -15,6 +15,7 @@ import com.echances.etouches.activities.MainActivity;
 import com.echances.etouches.api.WebServiceApi.WebServiceWaitingListener;
 import com.echances.etouches.api.WebServiceApiImp;
 import com.echances.etouches.model.Response;
+import com.echances.etouches.utilities.DialogsModels;
 import com.echances.etouches.utilities.Logr;
 
 /**
@@ -30,7 +31,7 @@ public class InscriptionFragment extends BaseFragment {
 
 	Button mSubscribeButton;
 	EditText mPseudoEditText, mPasswordEditText,
-			mConfirmPasswordEditText;
+			mConfirmPasswordEditText, mPhoneEditText;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class InscriptionFragment extends BaseFragment {
 		mSubscribeButton = (Button) view.findViewById(R.id.inscrire_button);
 
 		mPseudoEditText = (EditText) view.findViewById(R.id.pseudo_edit_text);
+		mPhoneEditText = (EditText) view.findViewById(R.id.phone_edit_text);
 		mPasswordEditText = (EditText) view
 				.findViewById(R.id.password_edit_text);
 		mConfirmPasswordEditText = (EditText) view
@@ -65,59 +67,9 @@ public class InscriptionFragment extends BaseFragment {
 				// TODO Auto-generated method stub
 
 				if (checkPWD()) {
-
-					WebServiceApiImp.getInstance((BaseActivity) getActivity())
-					.Subscription(mPseudoEditText.getText().toString(),
-							mPasswordEditText.getText().toString(),
-							"00966569013321",
-							2,
-							new WebServiceWaitingListener() {
-
-						@Override
-						public void OnWebServiceWait() {
-
-
-						}
-
-						@Override
-						public void OnWebServiceProgress(
-								float value) {
-
-						}
-
-						@Override
-						public void OnWebServiceEnd(
-								boolean statut, String message,
-								Object data) {
-
-							Logr.w("WS message=" + message);
-
-							if (statut) {
-
-								Response result = new Response();
-								try {
-									result = ((Response) data);
-								} catch (Exception e) {
-									// TODO: handle exception
-								}
-
-								getActivity()
-								.startActivity(
-										new Intent(
-												getActivity(),
-												MainActivity.class));
-								getActivity().finish();
-							} else {
-								// GoogleAnalyticsUtils.getInstance().trackAction(getActivity().getString(R.string.TAGACTION_Inscription_Connexion_KO));
-
-								//												DialogsModels.WarningDialog(
-								//														getActivity(), message);
-
-							}
-
-						}
-					});
-
+					subscribe();
+				}else{
+					DialogsModels.showErrorDialog(getActivity(), "Please verify all fields");
 				}
 
 			}
@@ -125,9 +77,52 @@ public class InscriptionFragment extends BaseFragment {
 
 	}
 
+	private void subscribe(){
+		DialogsModels.showLoadingDialog(getActivity());
+		WebServiceApiImp.getInstance((BaseActivity) getActivity()).Subscription(mPseudoEditText.getText().toString(),
+				mPasswordEditText.getText().toString(),
+				mPhoneEditText.getText().toString(),
+				2,
+		new WebServiceWaitingListener() {
+
+			@Override
+			public void OnWebServiceWait() {
+			}
+
+			@Override
+			public void OnWebServiceProgress(
+					float value) {
+			}
+
+			@Override
+			public void OnWebServiceEnd(boolean statut, String message, Object data) {
+
+				DialogsModels.hideLoadingDialog();
+				
+				Logr.w("WS message=" + message);
+
+				if (statut) {
+
+					Response result = new Response();
+					try {
+						result = ((Response) data);
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+					getActivity().startActivity(new Intent(getActivity(),MainActivity.class));
+					getActivity().finish();
+				} else {
+					DialogsModels.showErrorDialog(getActivity(), message);
+				}
+
+			}
+		});
+	}
+	
 	private boolean checkPWD() {
-		if (mPasswordEditText.getText().toString()
-				.equals(mConfirmPasswordEditText.getText().toString())) {
+		if (!mPseudoEditText.getText().toString().equals("") && !mPhoneEditText.getText().toString().equals("") &&
+				!mPasswordEditText.getText().toString().equals("") && !mConfirmPasswordEditText.getText().toString().equals("") &&
+				mPasswordEditText.getText().toString().equals(mConfirmPasswordEditText.getText().toString())) {
 			return true;
 		}
 
@@ -136,8 +131,6 @@ public class InscriptionFragment extends BaseFragment {
 		}
 
 	}
-
-
 	
 	@Override
 	public void onResume() {
