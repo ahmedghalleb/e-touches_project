@@ -1,58 +1,132 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
     android:background="@android:color/white"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
     tools:ignore="MissingPrefix" >
 
-    <RelativeLayout
-        android:id="@+id/headerLayout"
-        android:layout_width="fill_parent"
+    <ImageView 
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_launcher" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="CONNECTION" />
-    </RelativeLayout>
+        android:src="@drawable/img_thing"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"/>
+    
+    <ImageView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/logo"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
 
         <EditText
             android:id="@+id/mail_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            
             android:cursorVisible="true"
-            android:hint="Enter your phone number"
+            android:layout_above="@+id/password_edit_text"
+            android:layout_marginBottom="20dp"
+            android:hint="Phone Number"
             android:inputType="phone"
-            android:singleLine="true"/>
-
+            android:singleLine="true"
+            android:drawablePadding="10dp"
+            android:paddingLeft="10dp"
+            android:drawableLeft="@drawable/ic_mail"/>
 
         <EditText
             android:id="@+id/password_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:cursorVisible="true"
-            
-            android:hint="Enter your Password"
+            android:layout_centerInParent="true"
+            android:hint="Password"
             android:inputType="textPassword"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:drawablePadding="10dp"
+            android:paddingLeft="10dp"
+            android:drawableLeft="@drawable/ic_password" />
+        
+        <ImageView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/password_edit_text"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/separator"/>
 
         
 
     <Button
         android:id="@+id/connect_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Connect" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/password_edit_text"
+        android:text="Authenticate"
+        android:background="@color/red_app" />
 
     <Button
         android:id="@+id/forget_password_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Forget password ?"/>
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/connect_button"
+        android:layout_alignLeft="@+id/connect_button"
+        android:text="Forget your password ?"/>
+    
+    <Button
+        android:id="@+id/signup_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/connect_button"
+        android:layout_alignRight="@+id/connect_button"
+        android:text="Sign up"/>
+    
+    <LinearLayout 
+        android:id="@+id/botton_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        
+        <Button 
+            android:id="@+id/twitter_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_bg"
+            android:text="Twitter"
+            android:textColor="#20B2AA"
+            android:textSize="15sp"
+            android:paddingLeft="10dp"
+            android:paddingRight="30dp"
+            android:drawableLeft="@drawable/ic_twitter"/>
+        
+        <Button 
+            android:id="@+id/instagram_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_bg"
+            android:text="Instagram"
+            android:textColor="#0A5A87"
+            android:textSize="15sp"
+            android:paddingLeft="10dp"
+            android:paddingRight="30dp"
+            android:drawableLeft="@drawable/ic_insta"/>
+        
+    </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

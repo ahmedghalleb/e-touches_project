@@ -6,8 +6,80 @@
     
     <FrameLayout
         android:id="@+id/content_frame"
+        android:layout_above="@+id/tab_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    
+    <LinearLayout 
+        android:id="@+id/tab_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_navigation_bar"
+        android:orientation="horizontal">
+        <TextView 
+            android:id="@+id/tab_1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="bottom|center_horizontal"
+            android:tag="1"
+            android:onClick="TabSelected"
+            android:text="Home"
+            android:drawableTop="@drawable/ic_welcome"
+            android:paddingTop="7dp"
+            android:paddingBottom="5dp"
+            android:textSize="12sp"
+            android:textColor="@android:color/white"
+            android:clickable="true"/>
+        
+        <TextView 
+            android:id="@+id/tab_2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="bottom|center_horizontal"
+            android:tag="2"
+            android:onClick="TabSelected"
+            android:text="Manage"
+            android:drawableTop="@drawable/ic_manage"
+            android:paddingTop="7dp"
+            android:paddingBottom="5dp"
+            android:textSize="12sp"
+            android:textColor="@android:color/white"
+            android:clickable="true"/>
+        
+        <TextView 
+            android:id="@+id/tab_3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="bottom|center_horizontal"
+            android:tag="3"
+            android:onClick="TabSelected"
+            android:text="Profile"
+            android:drawableTop="@drawable/ic_profile"
+            android:paddingTop="7dp"
+            android:paddingBottom="5dp"
+            android:textSize="12sp"
+            android:textColor="@android:color/white"
+            android:clickable="true"/>
+        <TextView 
+            android:id="@+id/tab_4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="bottom|center_horizontal"
+            android:tag="4"
+            android:onClick="TabSelected"
+            android:text="Reservation"
+            android:drawableTop="@drawable/ic_reservation"
+            android:paddingTop="7dp"
+            android:paddingBottom="5dp"
+            android:textSize="12sp"
+            android:textColor="@android:color/white"
+            android:clickable="true"/>
+    </LinearLayout>
     
 </RelativeLayout>
 

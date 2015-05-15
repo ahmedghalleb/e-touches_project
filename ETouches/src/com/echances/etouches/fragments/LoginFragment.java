@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 import com.echances.etouches.R;
 import com.echances.etouches.activities.BaseActivity;
+import com.echances.etouches.activities.ConnectionActivity;
 import com.echances.etouches.activities.MainActivity;
 import com.echances.etouches.api.WebServiceApiImp;
 import com.echances.etouches.api.WebServiceApi.WebServiceWaitingListener;
@@ -38,7 +39,7 @@ public class LoginFragment extends BaseFragment
 
 	String TAG = "LoginFragment";
 	
-    Button mLoginButton,forgetPasswordButton;
+    Button mLoginButton,forgetPasswordButton, mSignupButton, mTwitterButton, mInstagramButton;
     EditText mMailEditText, mPasswordEditText;
 
     @Override
@@ -56,6 +57,9 @@ public class LoginFragment extends BaseFragment
         mMailEditText = (EditText)view.findViewById(R.id.mail_edit_text);
         mPasswordEditText = (EditText)view.findViewById(R.id.password_edit_text);
         forgetPasswordButton= (Button)view.findViewById(R.id.forget_password_button);
+        mSignupButton= (Button)view.findViewById(R.id.signup_button);
+        mTwitterButton= (Button)view.findViewById(R.id.twitter_button);
+        mInstagramButton= (Button)view.findViewById(R.id.instagram_button);
 
         return view;
     }
@@ -83,6 +87,17 @@ public class LoginFragment extends BaseFragment
             public void onClick(View v) {
                 
             	SendMailForget();
+                
+            }
+        });
+        
+        mSignupButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                
+            	InscriptionFragment fragment = new InscriptionFragment();
+                ((ConnectionActivity)getActivity()).addContent(fragment, "0");
                 
             }
         });

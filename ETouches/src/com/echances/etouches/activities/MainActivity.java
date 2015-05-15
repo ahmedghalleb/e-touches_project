@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.echances.etouches.R;
 import com.echances.etouches.api.WebServiceApiImp;
@@ -19,7 +20,7 @@ import com.echances.etouches.utilities.DialogsModels;
 import com.echances.etouches.utilities.Logr;
 
 
-public class MainActivity extends BaseActivity implements ActionBar.TabListener {
+public class MainActivity extends BaseActivity{
 
 	String TAG = "MainActivity";
 	
@@ -41,25 +42,12 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowHomeEnabled(false);
 
         //  actionBar.setSelectedNavigationItem(position);
-
-        // For each of the sections in the app, add a tab to the action bar.
-        for (int i = 0; i < 4; i++) {
-            // Create a tab with text corresponding to the page title defined by
-            // the adapter. Also specify this Activity object, which implements
-            // the TabListener interface, as the callback (listener) for when
-            // this tab is selected.
-            actionBar.addTab(
-                    actionBar.newTab()
-                            /*.setText(mSectionsPagerAdapter.getPageTitle(i))*/
-                    		.setIcon(getResources().getDrawable(R.drawable.ic_launcher))
-                            .setTabListener(this));
-        }
         
         GetServices();
         
@@ -199,39 +187,12 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
 
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        // When the given tab is selected, switch to the corresponding page in
-        // the ViewPager.
-        //mViewPager.setCurrentItem(tab.getPosition());
-    	selectTab(tab.getPosition() + 1);
+
+    public void TabSelected(View v) {
+    	Log.i(TAG,"onTabSelected : "+v.getTag());
+    	selectTab(Integer.parseInt(v.getTag().toString()));
     }
 
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
-
+    
 }

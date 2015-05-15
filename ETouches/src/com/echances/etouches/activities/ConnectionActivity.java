@@ -1,10 +1,9 @@
 package com.echances.etouches.activities;
 
 import com.echances.etouches.R;
-import com.echances.etouches.fragments.ConnectionFragment;
+import com.echances.etouches.fragments.LoginFragment;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -30,7 +29,7 @@ public class ConnectionActivity extends BaseActivity
 		setContentView(R.layout.activity_connection);
 		getSupportActionBar().hide();
 		FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-		ConnectionFragment fragment = new ConnectionFragment();
+		LoginFragment fragment = new LoginFragment();
 		t.replace(R.id.content_frame, fragment);
 		t.commit();
 
