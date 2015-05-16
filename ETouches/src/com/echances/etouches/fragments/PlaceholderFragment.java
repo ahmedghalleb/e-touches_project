@@ -51,7 +51,7 @@ public class PlaceholderFragment extends Fragment {
 			addFragment(MainFragment.newInstance(mSectionNumber));
 			break;
 		case 3:
-			addFragment(MainFragment.newInstance(mSectionNumber));
+			addFragment(ProfileFragment.newInstance(mSectionNumber));
 			break;
 		case 4:
 			addFragment(MainFragment.newInstance(mSectionNumber));
