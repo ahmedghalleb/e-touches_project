@@ -8,7 +8,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.echances.etouches.R;
 import com.echances.etouches.api.WebServiceApiImp;
@@ -34,6 +37,9 @@ public class MainActivity extends BaseActivity{
 	public PlaceholderFragment mFragmentSchedule;
 	public PlaceholderFragment mFragmentReservation;
 	
+	public ImageView mLeftImageView, mRightImageView;
+	public TextView mTitleTextView;
+	
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,18 +47,28 @@ public class MainActivity extends BaseActivity{
         setContentView(R.layout.activity_main);
 
         // Set up the action bar.
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowHomeEnabled(false);
-        
-        actionBar.setCustomView(null);
-
-        //  actionBar.setSelectedNavigationItem(position);
+        initActionBar();
         
         GetServices();
         
+        selectTab(TAB_SERVICES_INDEX);
+        
+    }
+    
+    private void initActionBar(){
+    	LayoutInflater mInflater = LayoutInflater.from(this);
+		View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
+		
+		ActionBar mActionBar = getSupportActionBar();
+		mActionBar.setDisplayShowHomeEnabled(false);
+		mActionBar.setDisplayShowTitleEnabled(false);
+		mActionBar.setCustomView(mCustomView);
+		mActionBar.setDisplayShowCustomEnabled(true);
+		
+		mLeftImageView = (ImageView) mCustomView.findViewById(R.id.leftImageView);
+		mRightImageView = (ImageView) mCustomView.findViewById(R.id.rightImageView);
+		mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
+  
     }
     
     public void selectTab(int index){
@@ -133,10 +149,14 @@ public class MainActivity extends BaseActivity{
     	if(fragment == null)
     		return;
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        if (isShow)
+        if (isShow){
             fragmentTransaction.show(fragment);
-        else
+            fragment.onResume();
+        }
+        else{
             fragmentTransaction.hide(fragment);
+            fragment.onResume();
+        }
         fragmentTransaction.commitAllowingStateLoss();
     }
 
@@ -144,6 +164,14 @@ public class MainActivity extends BaseActivity{
         getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
     
+    
+    public void showHideActionBar(boolean isShow){
+		if(isShow)
+			getSupportActionBar().show();
+		else
+			getSupportActionBar().hide();
+	}
+        
     /**
      * Method used to Login
      */

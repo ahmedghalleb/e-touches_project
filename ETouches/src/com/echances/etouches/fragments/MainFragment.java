@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.echances.etouches.fragments.PlaceholderFragment;
 
+import com.echances.etouches.fragments.PlaceholderFragment;
 import com.echances.etouches.R;
 
 /**
@@ -82,4 +82,12 @@ public class MainFragment extends BaseFragment {
 		});
     }
     
+    
+    @Override
+    public void onResume() {
+    	// TODO Auto-generated method stub
+    	((PlaceholderFragment)getParentFragment()).setTitle(sectionTextView.getText().toString());
+    	((PlaceholderFragment)getParentFragment()).setVisibility(View.GONE, View.VISIBLE);
+    	super.onResume();
+    }
 }

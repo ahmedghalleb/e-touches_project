@@ -49,6 +49,9 @@ public class ConnectionActivity extends BaseActivity
 		mActionBar.setDisplayShowCustomEnabled(true);
 		
 		mLeftImageView = (ImageView) mCustomView.findViewById(R.id.leftImageView);
+		
+		mLeftImageView.setVisibility(View.VISIBLE);
+		
 		mLeftImageView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

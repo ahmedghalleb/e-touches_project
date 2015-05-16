@@ -9,11 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="20dp"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#fff"
-        android:textStyle="bold"
         android:text="Registration" />
 
     <ImageView
@@ -23,7 +22,18 @@
         android:padding="10dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
+        android:visibility="gone"
         android:src="@drawable/ic_back" />
+    
+    <ImageView
+        android:id="@+id/rightImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:src="@drawable/ic_launcher" />
 
    
 </RelativeLayout>

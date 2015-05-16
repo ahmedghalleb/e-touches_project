@@ -53,4 +53,12 @@ public class ProfileFragment extends BaseFragment {
     	
     }
     
+    @Override
+    public void onResume() {
+    	// TODO Auto-generated method stub
+    	((PlaceholderFragment)getParentFragment()).setTitle("Profile");
+    	((PlaceholderFragment)getParentFragment()).setVisibility(View.GONE, View.GONE);
+    	super.onResume();
+    }
+    
 }

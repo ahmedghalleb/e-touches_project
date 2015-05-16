@@ -159,16 +159,6 @@ public class BaseFragment extends Fragment
 		return true;
 	}
 
-	// set new title
-	final public void setTitle (final String title)
-	{
-		if (getActivity() == null)
-			return;
-
-		mParentActivity.setTitle(title);
-
-	}
-
 	// abstract methods
 	public void onResumeFragment ()
 	{

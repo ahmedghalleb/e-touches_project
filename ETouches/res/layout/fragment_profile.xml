@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="10dp"
-                    android:text="Name *" />
+                    android:text="Name :" />
 
                 <EditText
                     android:id="@+id/pseudo_edit_text"
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="10dp"
-                    android:text="Mobile *" />
+                    android:text="Mobile :" />
 
                 <EditText
                     android:id="@+id/phone_edit_text"
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="10dp"
-                    android:text="Password *" />
+                    android:text="EMail :" />
 
                 <EditText
                     android:id="@+id/password_edit_text"
@@ -95,6 +95,22 @@
                     android:nextFocusDown="@+id/confirm_password_edit_text"
                     android:paddingLeft="10dp"
                     android:singleLine="true" />
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Kind of work :" />
+
+                <Switch
+                    android:id="@+id/switch1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="Home :"
+                    android:textColor="@color/black"/>
+
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

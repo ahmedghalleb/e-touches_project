@@ -10,11 +10,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.echances.etouches.R;
+import com.echances.etouches.activities.MainActivity;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class PlaceholderFragment extends Fragment {
+public class PlaceholderFragment extends BaseFragment {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -22,6 +23,9 @@ public class PlaceholderFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     int mSectionNumber;
+    
+    public String actionBarTitle;
+    public int leftVisibility, rightVisibility;
     
     /**
      * Returns a new instance of this fragment for the given section
@@ -70,5 +74,25 @@ public class PlaceholderFragment extends Fragment {
         fragmentTransaction.add(R.id.content_child_frame, fragment, fragment.getClass().getName());
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
         fragmentTransaction.commitAllowingStateLoss();
+    }
+    
+    public void setTitle (String title){
+    	actionBarTitle = title;
+    	((MainActivity)getActivity()).mTitleTextView.setText(title);
+    }
+    
+    public void setVisibility(int left, int right){
+    	leftVisibility = left;
+    	rightVisibility = right;
+    	((MainActivity)getActivity()).mLeftImageView.setVisibility(left);
+    	((MainActivity)getActivity()).mRightImageView.setVisibility(right);
+    }
+    
+    @Override
+    public void onResume() {
+    	// TODO Auto-generated method stub
+    	setTitle(actionBarTitle);
+    	setVisibility(leftVisibility, rightVisibility);
+    	super.onResume();
     }
 }
