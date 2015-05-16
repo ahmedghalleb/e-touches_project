@@ -2,6 +2,8 @@ package com.echances.etouches.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,6 +13,7 @@ import android.widget.EditText;
 
 import com.echances.etouches.R;
 import com.echances.etouches.activities.BaseActivity;
+import com.echances.etouches.activities.ConnectionActivity;
 import com.echances.etouches.activities.MainActivity;
 import com.echances.etouches.api.WebServiceApi.WebServiceWaitingListener;
 import com.echances.etouches.api.WebServiceApiImp;
@@ -50,7 +53,7 @@ public class InscriptionFragment extends BaseFragment {
 		mPasswordEditText = (EditText) view
 				.findViewById(R.id.password_edit_text);
 		mConfirmPasswordEditText = (EditText) view
-				.findViewById(R.id.confirm_password_edit_text);
+				.findViewById(R.id.confirm_password_edit_text);		
 
 		return view;
 	}
@@ -58,7 +61,7 @@ public class InscriptionFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		
 		mSubscribeButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -135,6 +138,7 @@ public class InscriptionFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		((ConnectionActivity) getActivity()).showHideActionBar(true);
 	}
 
 }

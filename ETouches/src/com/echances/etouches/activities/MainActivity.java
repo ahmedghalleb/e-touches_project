@@ -46,6 +46,8 @@ public class MainActivity extends BaseActivity{
         
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowHomeEnabled(false);
+        
+        actionBar.setCustomView(null);
 
         //  actionBar.setSelectedNavigationItem(position);
         

@@ -27,11 +27,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            
             android:cursorVisible="true"
             android:layout_above="@+id/password_edit_text"
             android:layout_marginBottom="20dp"
             android:hint="Phone Number"
+            android:text="0021878794"
             android:inputType="phone"
             android:singleLine="true"
             android:drawablePadding="10dp"
@@ -47,23 +47,13 @@
             android:cursorVisible="true"
             android:layout_centerInParent="true"
             android:hint="Password"
+            android:text="test"
             android:inputType="textPassword"
             android:singleLine="true"
             android:drawablePadding="10dp"
             android:paddingLeft="10dp"
             android:drawableLeft="@drawable/ic_password" />
         
-        <ImageView 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/password_edit_text"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/separator"/>
-
-        
-
     <Button
         android:id="@+id/connect_button"
         android:layout_width="match_parent"
@@ -73,31 +63,63 @@
         android:layout_marginTop="30dp"
         android:layout_below="@+id/password_edit_text"
         android:text="Authenticate"
+        android:textColor="@color/white"
         android:background="@color/red_app" />
 
-    <Button
+    <TextView
         android:id="@+id/forget_password_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="15dp"
+        android:textColor="@color/grey"
         android:layout_below="@+id/connect_button"
         android:layout_alignLeft="@+id/connect_button"
-        android:text="Forget your password ?"/>
+        android:text="@string/forget_password"/>
     
-    <Button
+    <TextView
         android:id="@+id/signup_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="15dp"
+        android:background="@null"
         android:layout_below="@+id/connect_button"
         android:layout_alignRight="@+id/connect_button"
-        android:text="Sign up"/>
+        android:text="@string/sign_up"
+        android:textColor="@color/grey"/>
+    
+    <ImageView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/botton_layout"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
+            android:layout_marginBottom="30dp"
+            android:src="@drawable/separator"/>
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_above="@+id/botton_layout"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:text="Or Log In With"
+        android:textSize="16sp"
+        android:textColor="@color/grey"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
     
     <LinearLayout 
         android:id="@+id/botton_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
         
@@ -108,7 +130,7 @@
             android:layout_weight="1"
             android:background="@drawable/btn_bg"
             android:text="Twitter"
-            android:textColor="#20B2AA"
+            android:textColor="#00B5F5"
             android:textSize="15sp"
             android:paddingLeft="10dp"
             android:paddingRight="30dp"

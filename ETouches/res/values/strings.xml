@@ -8,5 +8,6 @@
     <string name="title_section4">Reservations</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+	<string name="forget_password"><u>Forget your password ?</u></string>
+    <string name="sign_up"><u>Sign up</u></string>
 </resources>

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.echances.etouches.R;
 import com.echances.etouches.activities.BaseActivity;
@@ -39,7 +41,8 @@ public class LoginFragment extends BaseFragment
 
 	String TAG = "LoginFragment";
 	
-    Button mLoginButton,forgetPasswordButton, mSignupButton, mTwitterButton, mInstagramButton;
+    Button mLoginButton, mTwitterButton, mInstagramButton;
+    TextView forgetPasswordButton, mSignupButton;
     EditText mMailEditText, mPasswordEditText;
 
     @Override
@@ -56,8 +59,8 @@ public class LoginFragment extends BaseFragment
         mLoginButton = (Button)view.findViewById(R.id.connect_button);
         mMailEditText = (EditText)view.findViewById(R.id.mail_edit_text);
         mPasswordEditText = (EditText)view.findViewById(R.id.password_edit_text);
-        forgetPasswordButton= (Button)view.findViewById(R.id.forget_password_button);
-        mSignupButton= (Button)view.findViewById(R.id.signup_button);
+        forgetPasswordButton= (TextView)view.findViewById(R.id.forget_password_button);
+        mSignupButton= (TextView)view.findViewById(R.id.signup_button);
         mTwitterButton= (Button)view.findViewById(R.id.twitter_button);
         mInstagramButton= (Button)view.findViewById(R.id.instagram_button);
 
@@ -107,13 +110,13 @@ public class LoginFragment extends BaseFragment
     protected void SendMailForget() {
 		// TODO Auto-generated method stub
     	AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), AlertDialog.THEME_HOLO_LIGHT);
-		builder.setTitle("Enter you Email, to recover your password");
+		builder.setTitle("Enter you Phone Number, to recover your password");
 		// Set up the input
 		final EditText input = new EditText(getActivity());
 		// Specify the type of input expected;
-		input.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+		input.setInputType(InputType.TYPE_CLASS_PHONE);
 		
-		input.setHint("Enter you Email");
+		input.setHint("Enter you Phone Number");
 		
 		builder.setView(input);
 
@@ -157,6 +160,8 @@ public class LoginFragment extends BaseFragment
     public void onResume ()
     {
         super.onResume();
+        
+        ((ConnectionActivity) getActivity()).showHideActionBar(false);
 
     }
 
@@ -207,5 +212,6 @@ public class LoginFragment extends BaseFragment
 
     }
 
+    
 
 }
