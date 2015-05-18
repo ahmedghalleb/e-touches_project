@@ -79,6 +79,7 @@ public class PlaceholderFragment extends BaseFragment {
         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         // clear all fragment and init loading fragment
         fragmentTransaction.add(R.id.content_child_frame, fragment, fragment.getClass().getName());
+        fragmentTransaction.addToBackStack(fragment.getClass().getName()); 
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
         fragmentTransaction.commitAllowingStateLoss();
     }
@@ -112,7 +113,7 @@ public class PlaceholderFragment extends BaseFragment {
     }
     
 	public void popBackStack(){
-		Log.i("ConnectionActivity", "popBackStack");
+		Log.i("PlaceholderFragment", "popBackStack");
 		
 		int backStackEntryCount = getChildFragmentManager().getBackStackEntryCount();
 		
@@ -123,7 +124,7 @@ public class PlaceholderFragment extends BaseFragment {
 		getChildFragmentManager().popBackStack();
 		Fragment baseFragment = getChildFragmentManager().findFragmentByTag(getChildFragmentManager().getBackStackEntryAt(getChildFragmentManager().getBackStackEntryCount()-2).getName());
 		if (baseFragment == null) {
-			Log.i("ConnectionActivity", "baseFragment == null");
+			Log.i("PlaceholderFragment", "baseFragment == null");
 			return;
 		}
 		if (baseFragment instanceof BaseFragment) {
