@@ -3,6 +3,7 @@ package com.echances.etouches.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -67,6 +68,12 @@ public class PlaceholderFragment extends BaseFragment {
         return rootView;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+    	// TODO Auto-generated method stub
+    	super.onActivityCreated(savedInstanceState);
+    	
+    }
     
     public void addFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
@@ -93,6 +100,35 @@ public class PlaceholderFragment extends BaseFragment {
     	// TODO Auto-generated method stub
     	setTitle(actionBarTitle);
     	setVisibility(leftVisibility, rightVisibility);
+    	((MainActivity)getActivity()).setLeftViewListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				popBackStack();
+			}
+		});
     	super.onResume();
     }
+    
+	public void popBackStack(){
+		Log.i("ConnectionActivity", "popBackStack");
+		
+		int backStackEntryCount = getChildFragmentManager().getBackStackEntryCount();
+		
+		if(backStackEntryCount < 2){
+			return;
+		}
+			
+		getChildFragmentManager().popBackStack();
+		Fragment baseFragment = getChildFragmentManager().findFragmentByTag(getChildFragmentManager().getBackStackEntryAt(getChildFragmentManager().getBackStackEntryCount()-2).getName());
+		if (baseFragment == null) {
+			Log.i("ConnectionActivity", "baseFragment == null");
+			return;
+		}
+		if (baseFragment instanceof BaseFragment) {
+			((BaseFragment) baseFragment).onResume();
+		}
+	}
+	
 }

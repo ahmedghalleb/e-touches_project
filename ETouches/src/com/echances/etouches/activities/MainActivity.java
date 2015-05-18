@@ -11,6 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.echances.etouches.R;
@@ -39,18 +42,22 @@ public class MainActivity extends BaseActivity{
 	
 	public ImageView mLeftImageView, mRightImageView;
 	public TextView mTitleTextView;
-	
+	RadioGroup mTabBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mTabBar = (RadioGroup) findViewById(R.id.tab_bar);
+        
         // Set up the action bar.
         initActionBar();
         
         GetServices();
         
+        // select first tab
+        mTabBar.check(R.id.tab_1);
         selectTab(TAB_SERVICES_INDEX);
         
     }
@@ -171,6 +178,14 @@ public class MainActivity extends BaseActivity{
 		else
 			getSupportActionBar().hide();
 	}
+    
+    public void setLeftViewListener(View.OnClickListener listener){
+    	mLeftImageView.setOnClickListener(listener);
+    }
+    
+    public void setRightViewListener(View.OnClickListener listener){
+    	mRightImageView.setOnClickListener(listener);
+    }
         
     /**
      * Method used to Login
@@ -216,8 +231,6 @@ public class MainActivity extends BaseActivity{
 		});
 
     }
-
-
 
     public void TabSelected(View v) {
     	Log.i(TAG,"onTabSelected : "+v.getTag());

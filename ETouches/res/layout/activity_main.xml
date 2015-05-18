@@ -10,14 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     
-    <LinearLayout 
+    <RadioGroup 
         android:id="@+id/tab_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/bg_navigation_bar"
         android:orientation="horizontal">
-        <TextView 
+        <RadioButton
+            android:button="@null" 
             android:id="@+id/tab_1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -26,14 +27,15 @@
             android:tag="1"
             android:onClick="TabSelected"
             android:text="Home"
-            android:drawableTop="@drawable/ic_welcome"
+            android:drawableTop="@drawable/tab_home_selector"
             android:paddingTop="7dp"
             android:paddingBottom="5dp"
             android:textSize="12sp"
-            android:textColor="@android:color/white"
+            android:textColor="@drawable/tab_text_color_selector"
             android:clickable="true"/>
         
-        <TextView 
+        <RadioButton
+            android:button="@null" 
             android:id="@+id/tab_2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -42,14 +44,15 @@
             android:tag="2"
             android:onClick="TabSelected"
             android:text="Manage"
-            android:drawableTop="@drawable/ic_manage"
+            android:drawableTop="@drawable/tab_manage_selector"
             android:paddingTop="7dp"
             android:paddingBottom="5dp"
             android:textSize="12sp"
-            android:textColor="@android:color/white"
+            android:textColor="@drawable/tab_text_color_selector"
             android:clickable="true"/>
         
-        <TextView 
+        <RadioButton
+            android:button="@null" 
             android:id="@+id/tab_3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -58,13 +61,14 @@
             android:tag="3"
             android:onClick="TabSelected"
             android:text="Profile"
-            android:drawableTop="@drawable/ic_profile"
+            android:drawableTop="@drawable/tab_profile_selector"
             android:paddingTop="7dp"
             android:paddingBottom="5dp"
             android:textSize="12sp"
-            android:textColor="@android:color/white"
+            android:textColor="@drawable/tab_text_color_selector"
             android:clickable="true"/>
-        <TextView 
+        <RadioButton
+            android:button="@null" 
             android:id="@+id/tab_4"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -73,13 +77,14 @@
             android:tag="4"
             android:onClick="TabSelected"
             android:text="Reservation"
-            android:drawableTop="@drawable/ic_reservation"
+            android:drawableTop="@drawable/tab_reservation_selector"
             android:paddingTop="7dp"
             android:paddingBottom="5dp"
             android:textSize="12sp"
-            android:textColor="@android:color/white"
+            android:textColor="@drawable/tab_text_color_selector"
             android:clickable="true"/>
-    </LinearLayout>
+    </RadioGroup>
+    
     
 </RelativeLayout>
 

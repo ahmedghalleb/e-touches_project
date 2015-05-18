@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.echances.etouches.fragments.PlaceholderFragment;
@@ -23,6 +24,7 @@ public class MainFragment extends BaseFragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     TextView sectionTextView;
+    LinearLayout mTabBar;
     
     /**
      * Returns a new instance of this fragment for the given section
@@ -44,6 +46,8 @@ public class MainFragment extends BaseFragment {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         sectionTextView = (TextView) rootView.findViewById(R.id.section_label);
+        
+        
         int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
         switch (sectionNumber) {
 		case 1:
