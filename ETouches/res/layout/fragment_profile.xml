@@ -85,14 +85,13 @@
                     android:text="EMail :" />
 
                 <EditText
-                    android:id="@+id/password_edit_text"
+                    android:id="@+id/email_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@drawable/btn_imput"
                     android:ellipsize="end"
-                    android:inputType="textPassword"
-                    android:nextFocusDown="@+id/confirm_password_edit_text"
+                    android:inputType="textEmailAddress"
                     android:paddingLeft="10dp"
                     android:singleLine="true" />
                 

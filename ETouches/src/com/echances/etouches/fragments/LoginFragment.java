@@ -127,6 +127,8 @@ public class LoginFragment extends BaseFragment
 		        String text = input.getText().toString();
 		        Log.i(TAG, text);
 		        dialog.cancel();
+		        getActivity().startActivity(new Intent(getActivity(),MainActivity.class));
+				getActivity().finish();
 		    }
 		});
 		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

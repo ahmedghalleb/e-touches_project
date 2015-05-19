@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapFragment extends BaseFragment {
 
 	private GoogleMap mMap;
+	private Button mCancel, mAccept;
     /**
      * Returns a new instance of this fragment for the given section
      * number.
@@ -45,6 +47,8 @@ public class MapFragment extends BaseFragment {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
         
+        mCancel = (Button) rootView.findViewById(R.id.cancel_button);
+        mAccept = (Button) rootView.findViewById(R.id.validate_button);
 
         return rootView;
     }
@@ -53,6 +57,26 @@ public class MapFragment extends BaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
     	// TODO Auto-generated method stub
     	super.onActivityCreated(savedInstanceState);
+    	
+    	setUpMapIfNeeded();
+    	
+    	mCancel.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				((PlaceholderFragment)getParentFragment()).popBackStack();
+			}
+		});
+    	
+    	mAccept.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				((PlaceholderFragment)getParentFragment()).popBackStack();
+			}
+		});
     	
     }
     
@@ -83,8 +107,8 @@ public class MapFragment extends BaseFragment {
     public void onResume() {
     	// TODO Auto-generated method stub
     	((PlaceholderFragment)getParentFragment()).setTitle("Map");
-    	((PlaceholderFragment)getParentFragment()).setVisibility(View.VISIBLE, View.GONE);
-    	setUpMapIfNeeded();
+    	((PlaceholderFragment)getParentFragment()).setVisibility(View.VISIBLE, View.VISIBLE);
+    	
     	super.onResume();
     }
 }
