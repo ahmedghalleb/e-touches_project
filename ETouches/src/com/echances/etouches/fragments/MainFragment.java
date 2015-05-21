@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.echances.etouches.activities.MainActivity;
 import com.echances.etouches.fragments.PlaceholderFragment;
 import com.echances.etouches.R;
 
@@ -90,8 +91,22 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onResume() {
     	// TODO Auto-generated method stub
-    	((PlaceholderFragment)getParentFragment()).setTitle(sectionTextView.getText().toString());
-    	((PlaceholderFragment)getParentFragment()).setVisibility(View.GONE, View.VISIBLE);
+    	refreshHeader();
     	super.onResume();
     }
+    
+	@Override
+	public void onResumeFragment() {
+		// TODO Auto-generated method stub
+		refreshHeader();
+    	
+		super.onResumeFragment();
+	}
+	
+	private void refreshHeader(){
+		((MainActivity)getActivity()).mTitleTextView.setText(sectionTextView.getText().toString());
+		((MainActivity)getActivity()).mLeftImageView.setVisibility(View.GONE);
+    	((MainActivity)getActivity()).mRightImageView.setVisibility(View.GONE);
+	}
+	
 }

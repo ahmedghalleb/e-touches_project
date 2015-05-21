@@ -1,5 +1,6 @@
 package com.echances.etouches.fragments;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,11 +13,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.echances.etouches.activities.MainActivity;
 import com.echances.etouches.fragments.PlaceholderFragment;
 import com.echances.etouches.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -97,7 +101,7 @@ public class MapFragment extends BaseFragment {
 				// TODO Auto-generated method stub
 				Log.i("MapFragment", "LatLng : "+latLng.latitude+" "+latLng.longitude);
 				mMap.clear();// if (marker != null) {marker.remove();}
-				mMap.addMarker(new MarkerOptions().position(latLng));
+				mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin)));
 			}
 			
 		});
@@ -106,9 +110,21 @@ public class MapFragment extends BaseFragment {
     @Override
     public void onResume() {
     	// TODO Auto-generated method stub
-    	((PlaceholderFragment)getParentFragment()).setTitle("Map");
-    	((PlaceholderFragment)getParentFragment()).setVisibility(View.VISIBLE, View.VISIBLE);
-    	
+    	refreshHeader();
     	super.onResume();
     }
+    
+	@Override
+	public void onResumeFragment() {
+		// TODO Auto-generated method stub
+		refreshHeader();
+    	
+		super.onResumeFragment();
+	}
+	
+	private void refreshHeader(){
+		((MainActivity)getActivity()).mTitleTextView.setText("Map");
+		((MainActivity)getActivity()).mLeftImageView.setVisibility(View.VISIBLE);
+    	((MainActivity)getActivity()).mRightImageView.setVisibility(View.GONE);
+	}
 }

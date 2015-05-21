@@ -53,9 +53,7 @@ public class MainActivity extends BaseActivity{
         
         // Set up the action bar.
         initActionBar();
-        
-        GetServices();
-        
+                
         // select first tab
         mTabBar.check(R.id.tab_1);
         selectTab(TAB_SERVICES_INDEX);
@@ -162,7 +160,6 @@ public class MainActivity extends BaseActivity{
         }
         else{
             fragmentTransaction.hide(fragment);
-            fragment.onResume();
         }
         fragmentTransaction.commitAllowingStateLoss();
     }
@@ -187,51 +184,6 @@ public class MainActivity extends BaseActivity{
     	mRightImageView.setOnClickListener(listener);
     }
         
-    /**
-     * Method used to Login
-     */
-    public void GetServices(){
-
-    	DialogsModels.showLoadingDialog(this);
-		WebServiceApiImp.getInstance(this).GetServices(
-		new WebServiceWaitingListener() {
-
-			@Override
-			public void OnWebServiceWait() {
-			}
-
-			@Override
-			public void OnWebServiceProgress(
-					float value) {
-			}
-
-			@Override
-			public void OnWebServiceEnd(boolean statut, String message, Object data) {
-
-				DialogsModels.hideLoadingDialog();
-				
-				Logr.w("WS message=" + message);
-
-				if (statut) {
-
-					GetServicesResponse result = new GetServicesResponse();
-					try {
-						result = ((GetServicesResponse) data);
-						Log.i(TAG, result.getServics().get(0).getSEN());
-					} catch (Exception e) {
-						// TODO: handle exception
-						e.printStackTrace();
-					}
-					
-				} else {
-					DialogsModels.showErrorDialog(MainActivity.this, message);
-				}
-
-			}
-		});
-
-    }
-
     public void TabSelected(View v) {
     	Log.i(TAG,"onTabSelected : "+v.getTag());
     	selectTab(Integer.parseInt(v.getTag().toString()));

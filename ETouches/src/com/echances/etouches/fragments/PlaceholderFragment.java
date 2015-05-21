@@ -50,7 +50,7 @@ public class PlaceholderFragment extends BaseFragment {
         mSectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
         switch (mSectionNumber) {
 		case 1:
-			addFragment(MainFragment.newInstance(mSectionNumber));
+			addFragment(ServicesFragment.newInstance());
 			break;
 		case 2:
 			addFragment(MainFragment.newInstance(mSectionNumber));
@@ -59,7 +59,7 @@ public class PlaceholderFragment extends BaseFragment {
 			addFragment(ProfileFragment.newInstance(mSectionNumber));
 			break;
 		case 4:
-			addFragment(MainFragment.newInstance(mSectionNumber));
+			addFragment(ReservationsFragment.newInstance());
 			break;
 		default:
 			addFragment(MainFragment.newInstance(mSectionNumber));
@@ -84,23 +84,13 @@ public class PlaceholderFragment extends BaseFragment {
         fragmentTransaction.commitAllowingStateLoss();
     }
     
-    public void setTitle (String title){
-    	actionBarTitle = title;
-    	((MainActivity)getActivity()).mTitleTextView.setText(title);
-    }
-    
-    public void setVisibility(int left, int right){
-    	leftVisibility = left;
-    	rightVisibility = right;
-    	((MainActivity)getActivity()).mLeftImageView.setVisibility(left);
-    	((MainActivity)getActivity()).mRightImageView.setVisibility(right);
-    }
+
     
     @Override
     public void onResume() {
     	// TODO Auto-generated method stub
-    	setTitle(actionBarTitle);
-    	setVisibility(leftVisibility, rightVisibility);
+    	resumeLastFragment();
+    	
     	((MainActivity)getActivity()).setLeftViewListener(new OnClickListener() {
 			
 			@Override
@@ -122,7 +112,25 @@ public class PlaceholderFragment extends BaseFragment {
 		}
 			
 		getChildFragmentManager().popBackStack();
-		Fragment baseFragment = getChildFragmentManager().findFragmentByTag(getChildFragmentManager().getBackStackEntryAt(getChildFragmentManager().getBackStackEntryCount()-2).getName());
+		Fragment baseFragment = getChildFragmentManager().findFragmentByTag(getChildFragmentManager().getBackStackEntryAt(backStackEntryCount-2).getName());
+		if (baseFragment == null) {
+			Log.i("PlaceholderFragment", "baseFragment == null");
+			return;
+		}
+		if (baseFragment instanceof BaseFragment) {
+			((BaseFragment) baseFragment).onResumeFragment();;
+		}
+	}
+	
+	private void resumeLastFragment(){
+		
+		int backStackEntryCount = getChildFragmentManager().getBackStackEntryCount();
+		
+		if(backStackEntryCount < 1){
+			return;
+		}
+			
+		Fragment baseFragment = getChildFragmentManager().findFragmentByTag(getChildFragmentManager().getBackStackEntryAt(backStackEntryCount-1).getName());
 		if (baseFragment == null) {
 			Log.i("PlaceholderFragment", "baseFragment == null");
 			return;
@@ -131,5 +139,4 @@ public class PlaceholderFragment extends BaseFragment {
 			((BaseFragment) baseFragment).onResume();
 		}
 	}
-	
 }
