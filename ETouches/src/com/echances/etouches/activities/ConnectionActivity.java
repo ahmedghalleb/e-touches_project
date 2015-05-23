@@ -108,6 +108,16 @@ public class ConnectionActivity extends BaseActivity
 
 	}
 	
+	public void addFragmentWithHorizAnimation(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();        
+        //fragmentTransaction.setCustomAnimations(R.anim.slide_up, R.anim.slide_down, R.anim.slide_up, R.anim.slide_down);
+        fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_in_left, R.anim.slide_out_left, R.anim.slide_out_right);
+        fragmentTransaction.add(R.id.content_frame, fragment, fragment.getClass().getName());
+        fragmentTransaction.addToBackStack(fragment.getClass().getName()); 
+        //fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+	
 	public void popBackStack(){
 		Log.i("ConnectionActivity", "popBackStack");
 		

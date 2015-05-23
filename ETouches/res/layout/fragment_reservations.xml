@@ -5,16 +5,56 @@
     tools:context="com.echances.etouches.MainActivity$ServicesFragment"
     android:background="@android:color/white" >
 
-    <TextView
-        android:id="@+id/text_view"
+    <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/new_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_imput"
+                android:layout_weight="1"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:text="New Reservations"
+                android:textColor="@drawable/reservation_text_selector" />
+
+            <RadioButton
+                android:id="@+id/accepted_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_imput"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:text="Accepted Reservations"
+                android:textColor="@drawable/reservation_text_selector" />
+
+        </RadioGroup>
+    
+    
+    <EditText
+        android:id="@+id/search_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/radio_group"
         android:layout_margin="20dp"
-        android:text="Reservations List" />
+        android:background="@drawable/base"
+        android:drawableLeft="@drawable/loupe_icon"
+        android:drawablePadding="10dp"
+        android:paddingLeft="10dp"
+        android:hint="Search" />
     
     <ListView 
         android:id="@+id/services_listview"
-        android:layout_below="@+id/text_view"
+        android:layout_below="@+id/search_edit_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="20dp"

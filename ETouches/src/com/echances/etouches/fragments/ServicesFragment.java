@@ -106,7 +106,7 @@ public class ServicesFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				((PlaceholderFragment)getParentFragment()).addFragment(AddServiceFragment.newInstance());
+				((PlaceholderFragment)getParentFragment()).addFragmentWithHorizAnimation(AddServiceFragment.newInstance());
 			}
 		});
 	}

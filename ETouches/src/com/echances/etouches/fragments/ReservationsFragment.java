@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.echances.etouches.activities.BaseActivity;
@@ -31,8 +32,11 @@ import com.echances.etouches.R;
  */
 public class ReservationsFragment extends BaseFragment {
 	
-	MyCustomAdapter mAdapter;
+	
+	RadioGroup mRadioGroup;
 	ListView mListView;
+	
+	MyCustomAdapter mAdapter;
 	ArrayList<Service> mDataArray;
 
     /**
@@ -54,6 +58,8 @@ public class ReservationsFragment extends BaseFragment {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_reservations, container, false);
         
+        mRadioGroup = (RadioGroup) rootView.findViewById(R.id.radio_group);
+        
         mListView = (ListView) rootView.findViewById(R.id.services_listview);
        
         return rootView;
@@ -65,6 +71,8 @@ public class ReservationsFragment extends BaseFragment {
     	super.onActivityCreated(savedInstanceState);
     	
     	initView();
+    	
+    	mRadioGroup.setOnCheckedChangeListener(mOnCheckedChangeListener);
     	
     }
     
@@ -97,11 +105,22 @@ public class ReservationsFragment extends BaseFragment {
 	}
 	
 	private void refreshHeader(){
-		((MainActivity)getActivity()).mTitleTextView.setText("Services");
+		((MainActivity)getActivity()).mTitleTextView.setText("Reservations");
 		((MainActivity)getActivity()).mLeftImageView.setVisibility(View.GONE);
     	((MainActivity)getActivity()).mRightImageView.setVisibility(View.GONE);
 	}
 	
+	
+	RadioGroup.OnCheckedChangeListener mOnCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId == R.id.new_button) {
+                GetServices();
+            } else {
+            	GetServices();
+            }
+        }
+    };
 	/**
      * Method used to GetServices
      */

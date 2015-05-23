@@ -100,7 +100,7 @@ public class LoginFragment extends BaseFragment
             public void onClick(View v) {
                 
             	InscriptionFragment fragment = new InscriptionFragment();
-                ((ConnectionActivity)getActivity()).addContent(fragment, "0");
+                ((ConnectionActivity)getActivity()).addFragmentWithHorizAnimation(fragment);
                 
             }
         });

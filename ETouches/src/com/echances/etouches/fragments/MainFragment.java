@@ -82,7 +82,7 @@ public class MainFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				((PlaceholderFragment)getParentFragment()).addFragment(MainFragment.newInstance(-1));
+				((PlaceholderFragment)getParentFragment()).addFragmentWithHorizAnimation(MainFragment.newInstance(-1));
 			}
 		});
     }

@@ -53,7 +53,7 @@ public class PlaceholderFragment extends BaseFragment {
 			addFragment(ServicesFragment.newInstance());
 			break;
 		case 2:
-			addFragment(MainFragment.newInstance(mSectionNumber));
+			addFragment(ScheduleFragment.newInstance());
 			break;
 		case 3:
 			addFragment(ProfileFragment.newInstance(mSectionNumber));
@@ -76,11 +76,20 @@ public class PlaceholderFragment extends BaseFragment {
     }
     
     public void addFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-        // clear all fragment and init loading fragment
+        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();        
         fragmentTransaction.add(R.id.content_child_frame, fragment, fragment.getClass().getName());
         fragmentTransaction.addToBackStack(fragment.getClass().getName()); 
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+    
+    public void addFragmentWithHorizAnimation(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();        
+        //fragmentTransaction.setCustomAnimations(R.anim.slide_up, R.anim.slide_down, R.anim.slide_up, R.anim.slide_down);
+        fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_in_left, R.anim.slide_out_left, R.anim.slide_out_right);
+        fragmentTransaction.add(R.id.content_child_frame, fragment, fragment.getClass().getName());
+        fragmentTransaction.addToBackStack(fragment.getClass().getName()); 
+        //fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
         fragmentTransaction.commitAllowingStateLoss();
     }
     
