@@ -39,6 +39,7 @@
             android:text="Cancel"
             android:textColor="@color/white"
             android:textSize="15sp"
+            android:visibility="gone"
             android:layout_marginRight="1dp"/>
         
         <Button 
@@ -47,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/btn_accept"
-            android:text="Validate"
+            android:text="Modify Your Schedule"
             android:textColor="@color/white"
             android:textSize="15sp"/>
         

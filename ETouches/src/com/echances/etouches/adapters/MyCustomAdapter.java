@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
 import android.widget.TextView;
 
 import com.echances.etouches.R;
@@ -15,7 +16,8 @@ import com.echances.etouches.model.Service;
 public class MyCustomAdapter extends BaseAdapter {
 
     private ArrayList<Service> mData;
-
+    private ArrayList<Service> orig;
+    
 	private Context mContext;
 
     public MyCustomAdapter(Context context, ArrayList<Service> data) {
@@ -65,5 +67,37 @@ public class MyCustomAdapter extends BaseAdapter {
     public static class ViewHolder {
         public TextView textView;
     }
+    
+    public Filter getFilter() {
+	    return new Filter() {
+
+	        @Override
+	        protected FilterResults performFiltering(CharSequence constraint) {
+	            final FilterResults oReturn = new FilterResults();
+	            final ArrayList<Service> results = new ArrayList<Service>();
+	            if (orig == null)
+	                orig = mData;
+	            if (constraint != null) {
+	                if (orig != null && orig.size() > 0) {
+	                    for (final Service g : orig) {
+	                        if (g.getSEN().toLowerCase().contains(constraint.toString()))
+	                            results.add(g);
+	                    }
+	                }
+	                oReturn.values = results;
+	            }
+
+	            return oReturn;
+	        }
+
+	        @SuppressWarnings("unchecked")
+	        @Override
+	        protected void publishResults(CharSequence constraint,
+	                FilterResults results) {
+	            mData = (ArrayList<Service>) results.values;
+	            notifyDataSetChanged();
+	        }
+	    };
+	}
 
 }

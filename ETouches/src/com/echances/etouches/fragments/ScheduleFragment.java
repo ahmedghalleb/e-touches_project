@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -21,12 +23,14 @@ import com.echances.etouches.adapters.MyCustomAdapter;
  */
 public class ScheduleFragment extends BaseFragment {
 
-	View mRootView;
-	RecyclerView mListView;
-	
+	private View mRootView;
+	private RecyclerView mListView;
+	private Button mCancel, mAccept;
 	
 	MyCustomAdapter mAdapter;
 	ArrayList<ScheduleItem> mDataArray;
+	
+	boolean isModifyMode;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -48,6 +52,9 @@ public class ScheduleFragment extends BaseFragment {
         mRootView = inflater.inflate(R.layout.fragment_schedule, container, false);
         
         mListView = (RecyclerView) mRootView.findViewById(R.id.services_listview);
+        
+        mCancel = (Button) mRootView.findViewById(R.id.cancel_button);
+        mAccept = (Button) mRootView.findViewById(R.id.validate_button);
        
         return mRootView;
     }
@@ -58,6 +65,24 @@ public class ScheduleFragment extends BaseFragment {
     	super.onActivityCreated(savedInstanceState);
     	
     	initView();
+    	
+    	mCancel.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				changeMode();
+			}
+		});
+    	
+    	mAccept.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				changeMode();
+			}
+		});
     	
     }
     
@@ -94,6 +119,17 @@ public class ScheduleFragment extends BaseFragment {
         recyclerView.setLayoutManager(mLayoutManager);
         ScheduleCollectionAdapter mScheduleCollectionAdapter = new ScheduleCollectionAdapter(getActivity(), mDataArray);
         recyclerView.setAdapter(mScheduleCollectionAdapter);
+    }
+    
+    private void changeMode(){
+    	isModifyMode = !isModifyMode;
+    	if(isModifyMode){
+    		mCancel.setVisibility(View.VISIBLE);
+    		mAccept.setText("Validate");
+    	}else{
+    		mCancel.setVisibility(View.GONE);
+    		mAccept.setText("Modify Your Schedule");
+    	}
     }
 
     @Override

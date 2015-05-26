@@ -1,5 +1,6 @@
 package com.echances.etouches.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.echances.etouches.activities.ConnectionActivity;
 import com.echances.etouches.activities.MainActivity;
 import com.echances.etouches.fragments.PlaceholderFragment;
 import com.echances.etouches.R;
@@ -85,7 +87,17 @@ public class ProfileFragment extends BaseFragment {
 	private void refreshHeader(){
 		((MainActivity)getActivity()).mTitleTextView.setText("Profile");
 		((MainActivity)getActivity()).mLeftImageView.setVisibility(View.GONE);
-    	((MainActivity)getActivity()).mRightImageView.setVisibility(View.GONE);
+		((MainActivity)getActivity()).mRightImageView.setVisibility(View.VISIBLE);
+    	((MainActivity)getActivity()).mRightImageView.setImageResource(R.drawable.ic_add);
+    	((MainActivity)getActivity()).setRightViewListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				getActivity().startActivity(new Intent(getActivity(), ConnectionActivity.class));
+				getActivity().finish();
+			}
+		});
 	}
 	
 	

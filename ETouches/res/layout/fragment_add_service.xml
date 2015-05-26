@@ -1,16 +1,156 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="com.echances.etouches.MainActivity$ServicesFragment"
     android:background="@android:color/white" >
+    
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/text_view"
-        android:layout_width="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:text="Service *" />
+
+        <EditText
+            android:id="@+id/service_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:inputType="textPersonName"
+            android:singleLine="true"
+            android:nextFocusDown="@+id/phone_edit_text"
+            android:background="@drawable/ic_down"
+            android:paddingLeft="10dp"
+            android:hint="Choose service"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:text="Price *" />
+
+        <EditText
+            android:id="@+id/price_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:nextFocusDown="@+id/password_edit_text"
+            android:background="@drawable/btn_imput"
+            android:paddingLeft="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:text="Average time *" />
+
+        <EditText
+            android:id="@+id/average_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:inputType="textPersonName"
+            android:singleLine="true"
+            android:nextFocusDown="@+id/phone_edit_text"
+            android:background="@drawable/ic_down"
+            android:paddingLeft="10dp"
+            android:hint="Choose a time"/>
+        
+        <Button
+                    android:id="@+id/instagram_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_imput"
+                    android:drawableLeft="@drawable/ic_insta"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="Add images from instagram"
+                    android:textSize="13sp"
+                    android:textColor="#0A5A87"
+                    android:layout_marginTop="20dp"/>
+        
+        <Button
+                    android:id="@+id/upload_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_imput"
+                    android:drawableLeft="@drawable/ic_upload"
+                    android:drawablePadding="10dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="Add images from your phone"
+                    android:textSize="13sp"
+                    android:layout_marginTop="20dp" 
+                    android:textColor="@color/grey"/>
+        
+        <View 
+            android:id="@+id/gallery_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="20dp" />
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="10dp"
+            android:text="Required fields (*)"/>
+        
+        <LinearLayout 
+        android:id="@+id/botton_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_centerInParent="true"
-        android:text="Add new service" />
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+        
+        <Button 
+            android:id="@+id/cancel_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_cancel"
+            android:text="Cancel"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:layout_marginRight="1dp"/>
+        
+        <Button 
+            android:id="@+id/validate_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_accept"
+            android:text="Accept"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+        
+    </LinearLayout>
+    </LinearLayout>
     
-</RelativeLayout>
+            
+    
+</ScrollView>

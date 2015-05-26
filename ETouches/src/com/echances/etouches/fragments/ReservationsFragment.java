@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -35,6 +38,7 @@ public class ReservationsFragment extends BaseFragment {
 	
 	RadioGroup mRadioGroup;
 	ListView mListView;
+	EditText mSearchEditText;
 	
 	MyCustomAdapter mAdapter;
 	ArrayList<Service> mDataArray;
@@ -60,7 +64,9 @@ public class ReservationsFragment extends BaseFragment {
         
         mRadioGroup = (RadioGroup) rootView.findViewById(R.id.radio_group);
         
-        mListView = (ListView) rootView.findViewById(R.id.services_listview);
+        mListView = (ListView) rootView.findViewById(R.id.reservations_listview);
+        
+        mSearchEditText = (EditText) rootView.findViewById(R.id.search_edit_text);
        
         return rootView;
     }
@@ -73,6 +79,8 @@ public class ReservationsFragment extends BaseFragment {
     	initView();
     	
     	mRadioGroup.setOnCheckedChangeListener(mOnCheckedChangeListener);
+    	
+    	mSearchEditText.addTextChangedListener(searchTextWatcher);
     	
     }
     
@@ -119,8 +127,28 @@ public class ReservationsFragment extends BaseFragment {
             } else {
             	GetServices();
             }
+            
+            mSearchEditText.setText("");
         }
     };
+    
+    private TextWatcher searchTextWatcher = new TextWatcher() {
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			// ignore
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			// ignore
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			Log.d("after changed", "*** Search value changed: " + s.toString());
+			mAdapter.getFilter().filter(s.toString());			
+		}
+	};
 	/**
      * Method used to GetServices
      */
