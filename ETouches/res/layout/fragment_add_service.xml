@@ -2,23 +2,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="com.echances.etouches.MainActivity$ServicesFragment"
-    android:background="@android:color/white" >
-    
-        <LinearLayout
+    android:background="@android:color/white"
+    tools:context="com.echances.etouches.MainActivity$ServicesFragment" >
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
         android:orientation="vertical" >
 
-    <TextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:text="Service *" />
 
         <EditText
@@ -27,13 +26,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:ellipsize="end"
-            android:inputType="textPersonName"
-            android:singleLine="true"
-            android:nextFocusDown="@+id/phone_edit_text"
             android:background="@drawable/ic_down"
+            android:ellipsize="end"
+            android:hint="Choose service"
+            android:inputType="textPersonName"
+            android:nextFocusDown="@+id/phone_edit_text"
             android:paddingLeft="10dp"
-            android:hint="Choose service"/>
+            android:singleLine="true" 
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,12 +49,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/btn_imput"
             android:ellipsize="end"
             android:inputType="numberDecimal"
-            android:singleLine="true"
             android:nextFocusDown="@+id/password_edit_text"
-            android:background="@drawable/btn_imput"
-            android:paddingLeft="10dp"/>
+            android:paddingLeft="10dp"
+            android:singleLine="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -68,89 +69,88 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:ellipsize="end"
-            android:inputType="textPersonName"
-            android:singleLine="true"
-            android:nextFocusDown="@+id/phone_edit_text"
             android:background="@drawable/ic_down"
+            android:ellipsize="end"
+            android:hint="Choose a time"
+            android:inputType="textPersonName"
+            android:nextFocusDown="@+id/phone_edit_text"
             android:paddingLeft="10dp"
-            android:hint="Choose a time"/>
-        
+            android:singleLine="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+
         <Button
-                    android:id="@+id/instagram_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_imput"
-                    android:drawableLeft="@drawable/ic_insta"
-                    android:drawablePadding="10dp"
-                    android:gravity="center"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:text="Add images from instagram"
-                    android:textSize="13sp"
-                    android:textColor="#0A5A87"
-                    android:layout_marginTop="20dp"/>
-        
+            android:id="@+id/instagram_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_imput"
+            android:drawableLeft="@drawable/ic_insta"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Add images from instagram"
+            android:textColor="#0A5A87"
+            android:textSize="13sp" />
+
         <Button
-                    android:id="@+id/upload_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_imput"
-                    android:drawableLeft="@drawable/ic_upload"
-                    android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:text="Add images from your phone"
-                    android:textSize="13sp"
-                    android:layout_marginTop="20dp" 
-                    android:textColor="@color/grey"/>
-        
-        <View 
+            android:id="@+id/upload_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_imput"
+            android:drawableLeft="@drawable/ic_upload"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Add images from your phone"
+            android:textColor="@color/grey"
+            android:textSize="13sp" />
+
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/gallery_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="20dp" />
-        
-        <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_marginTop="10dp"
-            android:text="Required fields (*)"/>
-        
-        <LinearLayout 
-        android:id="@+id/botton_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:orientation="horizontal">
-        
-        <Button 
-            android:id="@+id/cancel_button"
-            android:layout_width="0dp"
+            android:text="Required fields (*)" />
+
+        <LinearLayout
+            android:id="@+id/botton_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/btn_cancel"
-            android:text="Cancel"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:layout_marginRight="1dp"/>
-        
-        <Button 
-            android:id="@+id/validate_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/btn_accept"
-            android:text="Accept"
-            android:textColor="@color/white"
-            android:textSize="15sp"/>
-        
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_cancel"
+                android:text="Cancel"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/validate_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/btn_accept"
+                android:text="Accept"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </LinearLayout>
     </LinearLayout>
-    </LinearLayout>
-    
-            
-    
+
 </ScrollView>

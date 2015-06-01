@@ -61,9 +61,6 @@ public class PlaceholderFragment extends BaseFragment {
 		case 4:
 			addFragment(ReservationsFragment.newInstance());
 			break;
-		default:
-			addFragment(MainFragment.newInstance(mSectionNumber));
-			break;
 		}
         return rootView;
     }

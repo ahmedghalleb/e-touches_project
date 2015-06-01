@@ -88,7 +88,7 @@ public class ProfileFragment extends BaseFragment {
 		((MainActivity)getActivity()).mTitleTextView.setText("Profile");
 		((MainActivity)getActivity()).mLeftImageView.setVisibility(View.GONE);
 		((MainActivity)getActivity()).mRightImageView.setVisibility(View.VISIBLE);
-    	((MainActivity)getActivity()).mRightImageView.setImageResource(R.drawable.ic_add);
+    	((MainActivity)getActivity()).mRightImageView.setImageResource(R.drawable.ic_logout);
     	((MainActivity)getActivity()).setRightViewListener(new OnClickListener() {
 			
 			@Override

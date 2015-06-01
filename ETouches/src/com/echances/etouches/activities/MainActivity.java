@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -57,6 +58,8 @@ public class MainActivity extends BaseActivity{
         // select first tab
         mTabBar.check(R.id.tab_1);
         selectTab(TAB_SERVICES_INDEX);
+        
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         
     }
     

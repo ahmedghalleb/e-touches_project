@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.echances.etouches.R;
 import com.echances.etouches.activities.MainActivity;
-import com.echances.etouches.adapters.MyCustomAdapter;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -27,7 +26,7 @@ public class ScheduleFragment extends BaseFragment {
 	private RecyclerView mListView;
 	private Button mCancel, mAccept;
 	
-	MyCustomAdapter mAdapter;
+	ScheduleCollectionAdapter mAdapter;
 	ArrayList<ScheduleItem> mDataArray;
 	
 	boolean isModifyMode;
@@ -51,7 +50,7 @@ public class ScheduleFragment extends BaseFragment {
             Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_schedule, container, false);
         
-        mListView = (RecyclerView) mRootView.findViewById(R.id.services_listview);
+        mListView = (RecyclerView) mRootView.findViewById(R.id.schedule_listview);
         
         mCancel = (Button) mRootView.findViewById(R.id.cancel_button);
         mAccept = (Button) mRootView.findViewById(R.id.validate_button);
@@ -98,27 +97,26 @@ public class ScheduleFragment extends BaseFragment {
     	
     	String [] days = {"","Mon.","Tue.","Wed.","Thu.","Fri.","Sat.","Sun."};
     	
-    	String [] hours = {"08:00","10:00","12:00","14:00","16:00","18:00","20:00","22:00","00:00","02:00","04:00","06:00"};
+    	String [] hours = {"","08:00","10:00","12:00","14:00","16:00","18:00","20:00","22:00","00:00","02:00","04:00","06:00"};
     	
-    	for (int i = 0; i < 96; i++) {
+    	for (int i = 0; i < days.length * hours.length; i++) {
     		ScheduleFragment.ScheduleItem item;
     		if(i<8)
     			item = new ScheduleItem(false, days[i], false);
     		else if(i%8==0)
-    			item = new ScheduleItem(false, hours[(i/8)-1], false);
+    			item = new ScheduleItem(false, hours[(i/8)], false);
     		else
     			item = new ScheduleItem(true, "", false);
     		mDataArray.add(item);
 		}
     	
-        RecyclerView recyclerView = (RecyclerView) mRootView.findViewById(R.id.schedule_listview);
-        //recyclerView.addItemDecoration(new MarginDecoration(this));
-        recyclerView.setHasFixedSize(true);
+        //mListView.addItemDecoration(new MarginDecoration(this));
+    	mListView.setHasFixedSize(true);
         GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 8);
         
-        recyclerView.setLayoutManager(mLayoutManager);
-        ScheduleCollectionAdapter mScheduleCollectionAdapter = new ScheduleCollectionAdapter(getActivity(), mDataArray);
-        recyclerView.setAdapter(mScheduleCollectionAdapter);
+        mListView.setLayoutManager(mLayoutManager);
+        mAdapter = new ScheduleCollectionAdapter(getActivity(), mDataArray);
+        mListView.setAdapter(mAdapter);
     }
     
     private void changeMode(){

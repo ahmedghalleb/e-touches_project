@@ -5,4 +5,6 @@
     <color name="white">#FFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="grey">#444444</color>
+    
+    <color name="trans_black">#33000000</color>
 </resources>
