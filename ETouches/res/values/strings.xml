@@ -10,4 +10,12 @@
     <string name="action_settings">Settings</string>
 	<string name="forget_password"><u>Forget your password ?</u></string>
     <string name="sign_up"><u>Sign up</u></string>
+    
+    <!-- Twitter Configurations -->
+    <string name="twitter_callback">http://e-touches.com/</string><!-- http://javatechig.android.app -->
+    <string name="twitter_consumer_key">CoXhuP1u4UtkYjsALBe5hND0M</string><!-- vM5RNi5CCodJnL7e5BOA -->
+    <string name="twitter_consumer_secret">FcAPsvFBa9n8Qchdiij9hud06wMwNBLAUiMq7ADbeByPfDU6Wj</string><!-- FQNS0eBbM8J5DDjDglLCwOvAUUesYhN5uFxdxjKLgk -->
+    <string name="twitter_oauth_verifier">oauth_verifier</string>
+    <!-- End Configurations -->
+    
 </resources>

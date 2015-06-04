@@ -8,6 +8,7 @@ import com.echances.etouches.fragments.LoginFragment;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,7 +29,7 @@ import android.widget.ImageView;
  * @details *
  * 
  */
-public class ConnectionActivity extends BaseActivity
+public class ConnectionActivity extends TwitterActivity
 {
 
 	ImageView mLeftImageView;
@@ -66,9 +67,7 @@ public class ConnectionActivity extends BaseActivity
 		LoginFragment fragment = new LoginFragment();
 		t.replace(R.id.content_frame, fragment, fragment.getClass().getName());
 		t.addToBackStack(fragment.getClass().getName());
-		t.commit();
-		
-		
+		t.commit();		
 
 	}
 
@@ -182,6 +181,11 @@ public class ConnectionActivity extends BaseActivity
 	        	e.printStackTrace();
 	        }
 	    }
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 }

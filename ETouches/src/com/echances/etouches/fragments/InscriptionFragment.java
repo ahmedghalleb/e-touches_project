@@ -35,6 +35,13 @@ public class InscriptionFragment extends BaseFragment {
 	Button mSubscribeButton;
 	EditText mPseudoEditText, mPasswordEditText,
 			mConfirmPasswordEditText, mPhoneEditText;
+	
+	private int mMode;
+	private String mUsername;
+	
+	public InscriptionFragment(String username){
+		mUsername = username;
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -77,6 +84,8 @@ public class InscriptionFragment extends BaseFragment {
 
 			}
 		});
+		
+		mPseudoEditText.setText(mUsername);
 
 	}
 

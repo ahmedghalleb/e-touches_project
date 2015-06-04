@@ -19,6 +19,8 @@ import com.echances.etouches.R;
 import com.echances.etouches.activities.BaseActivity;
 import com.echances.etouches.activities.ConnectionActivity;
 import com.echances.etouches.activities.MainActivity;
+import com.echances.etouches.activities.TwitterActivity;
+import com.echances.etouches.activities.TwitterActivity.TwitterCallBack;
 import com.echances.etouches.api.WebServiceApiImp;
 import com.echances.etouches.api.WebServiceApi.WebServiceWaitingListener;
 import com.echances.etouches.model.LoginResponse;
@@ -99,9 +101,33 @@ public class LoginFragment extends BaseFragment
             @Override
             public void onClick(View v) {
                 
-            	InscriptionFragment fragment = new InscriptionFragment();
+            	InscriptionFragment fragment = new InscriptionFragment("");
                 ((ConnectionActivity)getActivity()).addFragmentWithHorizAnimation(fragment);
                 
+            }
+        });
+        
+        mTwitterButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                
+            	((TwitterActivity)getActivity()).getUsername(new TwitterCallBack() {
+					
+					@Override
+					public void GetUserNameSuccess(String username) {
+						// TODO Auto-generated method stub
+						InscriptionFragment fragment = new InscriptionFragment(username);
+		                ((ConnectionActivity)getActivity()).addFragmentWithHorizAnimation(fragment);
+					}
+					
+					@Override
+					public void GetUserNameError() {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+            	                
             }
         });
 
