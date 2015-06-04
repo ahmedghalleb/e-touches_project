@@ -71,10 +71,11 @@ public final class Constants
 	 * class used for Facebook Utilities constants
 	 * 
 	 */
-	public static class FacebookUtils
+	public static class Instagram
 	{
-		public static final String	appID	= "";
-
+		public static final String CLIENT_ID = /*"7bf7adb692874edf97259228d083ce1a";//*/"379d744556c743c090c8a2014779f59f";
+		public static final String CLIENT_SECRET = /*"e3e675155b8e40e9a7dbc46be9a28a3a";//*/"fd6ec75e44054da1a5088ad2d72f2253";
+		public static final String CALLBACK_URL = "instagram://connect";
 	}
 
 	/**

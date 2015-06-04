@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+import br.com.dina.oauth.instagram.InstagramApp.OAuthAuthenticationListener;
 
 import com.echances.etouches.R;
 import com.echances.etouches.activities.BaseActivity;
@@ -23,6 +25,7 @@ import com.echances.etouches.activities.TwitterActivity;
 import com.echances.etouches.activities.TwitterActivity.TwitterCallBack;
 import com.echances.etouches.api.WebServiceApiImp;
 import com.echances.etouches.api.WebServiceApi.WebServiceWaitingListener;
+import com.echances.etouches.application.EchouchesApplication;
 import com.echances.etouches.model.LoginResponse;
 import com.echances.etouches.model.Response;
 import com.echances.etouches.utilities.DialogsModels;
@@ -130,7 +133,27 @@ public class LoginFragment extends BaseFragment
             	                
             }
         });
+        
+        mInstagramButton.setOnClickListener(new OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                
+            	if (((BaseActivity)getActivity()).mApp.hasAccessToken()) {
+            		
+            		InscriptionFragment fragment = new InscriptionFragment(((BaseActivity)getActivity()).mApp.getName());
+	                ((ConnectionActivity)getActivity()).addFragmentWithHorizAnimation(fragment);
+	                
+	                
+            	}else{
+            		((BaseActivity)getActivity()).mApp.setListener(listener);
+            		((BaseActivity)getActivity()).mApp.authorize();
+            	}
+            	                
+            }
+        });
+
+        //
     }
     
     protected void SendMailForget() {
@@ -240,6 +263,18 @@ public class LoginFragment extends BaseFragment
 
     }
 
-    
+	OAuthAuthenticationListener listener = new OAuthAuthenticationListener() {
+
+		@Override
+		public void onSuccess() {
+			InscriptionFragment fragment = new InscriptionFragment(((BaseActivity)getActivity()).mApp.getName());
+            ((ConnectionActivity)getActivity()).addFragmentWithHorizAnimation(fragment);
+        }
+
+		@Override
+		public void onFail(String error) {
+			Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+		}
+	};
 
 }

@@ -3,8 +3,10 @@ package com.echances.etouches.activities;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import br.com.dina.oauth.instagram.InstagramApp;
 
 import com.echances.etouches.application.EtouchesApplicationCache;
+import com.echances.etouches.utilities.Constants;
 import com.echances.etouches.webservices.WebServiceEchancesService;
 import com.octo.android.robospice.SpiceManager;
 
@@ -21,6 +23,9 @@ public class BaseActivity extends ActionBarActivity{
      * 
      * @returns the state of the current activity.
      */
+    
+    public InstagramApp mApp;
+    
     public boolean isActivityRunning() {
         if (isInFront && !isFinishing())
             return true;
@@ -36,6 +41,9 @@ public class BaseActivity extends ActionBarActivity{
             spiceManager.start(getApplicationContext());
             Log.e("StartedSpice","StartedSpice");
         }
+        
+        mApp = new InstagramApp(this, Constants.Instagram.CLIENT_ID,
+        		Constants.Instagram.CLIENT_SECRET, Constants.Instagram.CALLBACK_URL);
     }
     @Override
     protected void onStop() {
