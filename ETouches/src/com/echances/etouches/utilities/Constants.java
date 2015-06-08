@@ -61,6 +61,7 @@ public final class Constants
 		public static final String	USER_LOGIN		= "user_login";
 		public static final String	USER_TOKEN		= "user_token";
 		public static final String	IS_FIRST_RUN	= "is_first_run";
+		public static final String	USER_ID		= "user_id";
 
 	}
 

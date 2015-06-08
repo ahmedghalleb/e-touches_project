@@ -1,15 +1,30 @@
 package com.echances.etouches.fragments;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +33,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
+import br.com.dina.oauth.instagram.InstagramApp.OAuthAuthenticationListener;
 
 import com.echances.etouches.R;
+import com.echances.etouches.activities.BaseActivity;
+import com.echances.etouches.activities.ConnectionActivity;
 import com.echances.etouches.activities.MainActivity;
+import com.echances.etouches.activities.MainActivity.OnGetImageListener;
+import com.echances.etouches.application.EtouchesApplicationCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -110,6 +131,51 @@ public class AddServiceFragment extends BaseFragment {
 			}
 		});
     	
+    	
+    	addImageInstagramButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                
+            	if (((BaseActivity)getActivity()).mApp.hasAccessToken()) {
+            		
+            		GetInstagramImages();
+	                
+	                
+            	}else{
+            		((BaseActivity)getActivity()).mApp.setListener(listener);
+            		((BaseActivity)getActivity()).mApp.authorize();
+            	}
+            	                
+            }
+        });
+    	
+    	uploadImageButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                
+            	Intent pickPicture = new Intent(
+        				Intent.ACTION_PICK,
+        				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        		startActivityForResult(pickPicture, MainActivity.GALERY_REQUEST_CODE);
+        		
+        		((MainActivity)getActivity()).setOnGetImageListener(new OnGetImageListener() {
+					
+					@Override
+					public void OnGetImage(Bitmap pickedPhoto) {
+						// TODO Auto-generated method stub
+						mDataArray.add(new GaleryItem(mDataArray.size()+1, "", pickedPhoto));
+						mAdapter.setItems(mDataArray);
+						mAdapter.notifyDataSetChanged();
+						
+					}
+				});
+            	                
+            }
+        });
+    	
+    	
     }
     
     private void initView() {
@@ -125,11 +191,11 @@ public class AddServiceFragment extends BaseFragment {
 	    	
 	    	mDataArray = new ArrayList<GaleryItem>();	    	
 	    	
-	    	for (int i = 0; i < 10 ; i++) {
-	    		GaleryItem item; //https://simplycharlottemason.com/wp-content/uploads/2011/03/butterfly-homeschool-nature-study.jpg
-	    		item = new GaleryItem(i+1, "http://173.254.109.165/wp-content/uploads/2014/04/4112014_ArborDayRareBooks.jpg", null);
-	    		mDataArray.add(item);
-			}
+//	    	for (int i = 0; i < 10 ; i++) {
+//	    		GaleryItem item; //https://simplycharlottemason.com/wp-content/uploads/2011/03/butterfly-homeschool-nature-study.jpg
+//	    		item = new GaleryItem(i+1, "http://173.254.109.165/wp-content/uploads/2014/04/4112014_ArborDayRareBooks.jpg", null);
+//	    		mDataArray.add(item);
+//			}
 	    	
 	        //recyclerView.addItemDecoration(new MarginDecoration(this));
 	        mGaleryView.setHasFixedSize(true);
@@ -184,6 +250,8 @@ public class AddServiceFragment extends BaseFragment {
 		// TODO Auto-generated method stub
 		refreshHeader();
     	
+		mAdapter.notifyDataSetChanged();
+		
 		GetServices();
 		
 		super.onResumeFragment();
@@ -195,27 +263,85 @@ public class AddServiceFragment extends BaseFragment {
     	((MainActivity)getActivity()).mRightImageView.setVisibility(View.GONE);
 	}
 	
+	public void setSelectedImagesFromInstagram(ArrayList<String> urls){
+		for (String string : urls) {
+			mDataArray.add(new GaleryItem(mDataArray.size()+1, string, null));
+			mAdapter.setItems(mDataArray);
+		}
+	}
+	
 	/**
      * Method used to GetServices
      */
     public void GetServices(){
 
     }
+    
+    protected void GetInstagramImages() {
+		try{
+			
+		URL example = new URL("https://api.instagram.com/v1/users/self/media/recent?access_token="
+				+ ((BaseActivity)getActivity()).mApp.getAccessToken());
+		
+			URLConnection tc = example.openConnection();
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					tc.getInputStream()));
+
+			ArrayList<String> imagesArrays = new ArrayList<String>();
+			
+			String line;
+			while ((line = in.readLine()) != null) {
+				JSONObject ob = new JSONObject(line);
+
+				JSONArray object = ob.getJSONArray("data");
+
+				for (int i = 0; i < object.length(); i++) {
+
+
+					JSONObject jo = (JSONObject) object.get(i);
+					JSONObject nja = (JSONObject) jo.getJSONObject("images");
+
+					JSONObject purl3 = (JSONObject) nja
+							.getJSONObject("thumbnail");
+					Log.i("TAG", "" + purl3.getString("url"));
+					imagesArrays.add(purl3.getString("url"));
+				}
+
+			}
+			
+			((PlaceholderFragment)getParentFragment()).addFragmentWithHorizAnimation(GridImagesFragment.newInstance(this, imagesArrays));
+			
+		} catch (MalformedURLException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		} catch (JSONException e) {
+
+			e.printStackTrace();
+		}
+
+	}
+    
+    OAuthAuthenticationListener listener = new OAuthAuthenticationListener() {
+
+		@Override
+		public void onSuccess() {
+			GetInstagramImages();
+        }
+
+		@Override
+		public void onFail(String error) {
+			Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+		}
+	};
 
     
     public class AddServiceAdapter extends RecyclerView.Adapter<AddServiceAdapter.CustomHolder> {
 
         Context context;
         private ArrayList<GaleryItem> items;
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-		.showImageOnLoading(R.drawable.ic_launcher)
-		.showImageForEmptyUri(R.drawable.ic_launcher)
-		.showImageOnFail(R.drawable.ic_launcher)
-		.cacheInMemory(true)
-		.cacheOnDisk(true)
-		.considerExifParams(true)
-		.bitmapConfig(Bitmap.Config.RGB_565)
-		.build();
 
         public AddServiceAdapter(Context context, ArrayList<GaleryItem> items) {
             this.context = context;
@@ -258,7 +384,8 @@ public class AddServiceFragment extends BaseFragment {
             holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                	
+                	items.remove(position);
+                	notifyDataSetChanged();
                 }
             });
         }

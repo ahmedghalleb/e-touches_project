@@ -5,34 +5,21 @@
     tools:context="com.echances.etouches.MainActivity$ServicesFragment"
     android:background="@android:color/white" >
 
-    <TextView
-        android:id="@+id/text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:layout_marginBottom="18dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="Set your availability hours" />
     
     <android.support.v7.widget.RecyclerView 
-        android:id="@+id/schedule_listview"
-        android:layout_below="@+id/text_view"
+        android:id="@+id/images_listview"
+        android:layout_alignParentTop="true"
         android:layout_above="@+id/botton_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        
         />
     
     <LinearLayout 
         android:id="@+id/botton_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:layout_marginBottom="18dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_margin="20dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
         
@@ -45,7 +32,6 @@
             android:text="Cancel"
             android:textColor="@color/white"
             android:textSize="15sp"
-            android:visibility="gone"
             android:layout_marginRight="1dp"/>
         
         <Button 
@@ -54,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/btn_accept"
-            android:text="Modify Your Schedule"
+            android:text="Validate"
             android:textColor="@color/white"
             android:textSize="15sp"/>
         

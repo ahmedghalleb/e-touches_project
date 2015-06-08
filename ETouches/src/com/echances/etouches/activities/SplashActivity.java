@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.echances.etouches.R;
-
-import com.echances.etouches.activities.ConnectionActivity;;
+import com.echances.etouches.activities.ConnectionActivity;
+import com.echances.etouches.application.EtouchesApplicationCache;
 
 /**
  * 
@@ -45,8 +45,11 @@ public class SplashActivity extends BaseActivity{
             @Override
             public void run ()
             {
-
-            	startActivity(new Intent(SplashActivity.this, ConnectionActivity.class));
+            	if(EtouchesApplicationCache.getInstance().isConnected())
+            		startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            	else
+            		startActivity(new Intent(SplashActivity.this, ConnectionActivity.class));
+            	
                 finish();
 
             }

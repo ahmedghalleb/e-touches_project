@@ -1,9 +1,11 @@
 package com.echances.etouches.application;
 
+import com.echances.etouches.R;
+import com.echances.etouches.utilities.Constants;
 import com.echances.etouches.utilities.Constants.Params;
 import com.echances.etouches.utilities.Constants.PreferencesCache;
 import com.echances.etouches.utilities.DialogsModels;
-
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -11,17 +13,17 @@ import android.content.SharedPreferences;
 
 /**
  * 
- * @file DigiSchoolApplicationCache.java
- * @author Bilel Gaabel
+ * @file EtouchesApplicationCache.java
+ * @author Ahmed Ghalleb
  * @version 1.0
- * @brief * DigiSchool Application cache class.
+ * @brief * Etouches Application cache class.
  * @details *
  */
 
 public class EtouchesApplicationCache
 {
 	/**
-	 * instance of DigiSchoolApplicationCache class
+	 * instance of EtouchesApplicationCache class
 	 */
 	private static EtouchesApplicationCache	instance	= new EtouchesApplicationCache();
 
@@ -45,6 +47,13 @@ public class EtouchesApplicationCache
 	 * progress dialog object for all the application
 	 */
 	ProgressDialog								mProgressDialog;
+	
+	
+	public DisplayImageOptions options = new DisplayImageOptions.Builder()
+    .showStubImage(R.drawable.ic_launcher)
+    .cacheInMemory()
+    .cacheOnDisc()
+    .build();
 
 	private EtouchesApplicationCache()
 	{
@@ -188,7 +197,7 @@ public class EtouchesApplicationCache
 	 */
 	public boolean isConnected ()
 	{
-		return (getToken() != null) && (!getToken().equals(""));
+		return (getUserId() != 0);
 	}
 
 	/**
@@ -205,6 +214,14 @@ public class EtouchesApplicationCache
 		initiateSharedPreferences().edit().putString(key, value).commit();
 	}
 
+	public void saveUserId (int id)
+	{
+		initiateSharedPreferences().edit().putInt(Constants.PreferencesCache.USER_ID, id).commit();
+	}
+	
+	public int getUserId(){
+		return initiateSharedPreferences().getInt(Constants.PreferencesCache.USER_ID, 0);
+	}
 	
 	/**
 	 * init the preferences

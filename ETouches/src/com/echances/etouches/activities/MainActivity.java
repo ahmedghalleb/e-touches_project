@@ -1,7 +1,12 @@
 package com.echances.etouches.activities;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -31,6 +36,8 @@ public class MainActivity extends BaseActivity{
 
 	String TAG = "MainActivity";
 	
+	public static int GALERY_REQUEST_CODE = 33;
+	
 	public static final int TAB_SERVICES_INDEX = 1;
 	public static final int TAB_SETTING_INDEX = 2;
 	public static final int TAB_SCHEDULE_INDEX = 3;
@@ -44,8 +51,10 @@ public class MainActivity extends BaseActivity{
 	public ImageView mLeftImageView, mRightImageView;
 	public TextView mTitleTextView;
 	RadioGroup mTabBar;
+	
+	OnGetImageListener onGetImageListener;
 
-    @Override
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -191,6 +200,39 @@ public class MainActivity extends BaseActivity{
     	Log.i(TAG,"onTabSelected : "+v.getTag());
     	selectTab(Integer.parseInt(v.getTag().toString()));
     }
+    
+  @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (resultCode == RESULT_OK && null != data) {
+			Uri selectedImage = data.getData();
+			
+			if(true){//requestCode == GALERY_REQUEST_CODE
+				String[] filePathColumn = { MediaStore.Images.Media.DATA };
+				Cursor cursor = getContentResolver().query(selectedImage,
+						filePathColumn, null, null, null);
+				cursor.moveToFirst();
+				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+				String picturePath = cursor.getString(columnIndex);
+				cursor.close();
+				Bitmap pickedPhoto = BitmapFactory.decodeFile(picturePath);
+				
+				if(onGetImageListener != null)
+					onGetImageListener.OnGetImage(pickedPhoto);
+
+			}
+		}
+	}
+  
+
+  public void setOnGetImageListener(OnGetImageListener onGetImageListener) {
+		this.onGetImageListener = onGetImageListener;
+  }
+
+  public interface OnGetImageListener {
+	  void OnGetImage(Bitmap pickedPhoto);
+  }
 
     
 }

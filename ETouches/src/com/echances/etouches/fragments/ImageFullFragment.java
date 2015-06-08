@@ -70,7 +70,7 @@ public class ImageFullFragment extends BaseFragment {
         	mImageView.setImageBitmap(mBitmapImage);
         }else{
         	// load url
-        	ImageLoader.getInstance().displayImage(mUrlImage, mImageView);
+        	ImageLoader.getInstance().displayImage(mUrlImage.replace("s150x150", ""), mImageView);
         }
     	
     }

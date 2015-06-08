@@ -43,10 +43,10 @@ public class EchouchesApplication extends Application {
 		// method.
 		ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(context);
 		config.threadPriority(Thread.NORM_PRIORITY - 2);
-		config.denyCacheImageMultipleSizesInMemory();
+//		config.denyCacheImageMultipleSizesInMemory();
 		config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
-		config.diskCacheSize(50 * 1024 * 1024); // 50 MiB
-		config.tasksProcessingOrder(QueueProcessingType.LIFO);
+		config.diskCacheSize(100 * 1024 * 1024); // 50 MiB
+		config.tasksProcessingOrder(QueueProcessingType.FIFO);
 		config.writeDebugLogs(); // Remove for release app
 
 		// Initialize ImageLoader with configuration.

@@ -26,6 +26,7 @@ import com.echances.etouches.activities.TwitterActivity.TwitterCallBack;
 import com.echances.etouches.api.WebServiceApiImp;
 import com.echances.etouches.api.WebServiceApi.WebServiceWaitingListener;
 import com.echances.etouches.application.EchouchesApplication;
+import com.echances.etouches.application.EtouchesApplicationCache;
 import com.echances.etouches.model.LoginResponse;
 import com.echances.etouches.model.Response;
 import com.echances.etouches.utilities.DialogsModels;
@@ -176,8 +177,8 @@ public class LoginFragment extends BaseFragment
 		        String text = input.getText().toString();
 		        Log.i(TAG, text);
 		        dialog.cancel();
-		        getActivity().startActivity(new Intent(getActivity(),MainActivity.class));
-				getActivity().finish();
+//		        getActivity().startActivity(new Intent(getActivity(),MainActivity.class));
+//				getActivity().finish();
 		    }
 		});
 		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -248,12 +249,16 @@ public class LoginFragment extends BaseFragment
 					try {
 						result = ((LoginResponse) data);
 						Log.i(TAG, result.getResult().getMb());
+						
+						EtouchesApplicationCache.getInstance().saveUserId(result.getResult().getId());
+						getActivity().startActivity(new Intent(getActivity(),MainActivity.class));
+						getActivity().finish();
+						
 					} catch (Exception e) {
 						// TODO: handle exception
 						e.printStackTrace();
 					}
-					getActivity().startActivity(new Intent(getActivity(),MainActivity.class));
-					getActivity().finish();
+					
 				} else {
 					DialogsModels.showErrorDialog(getActivity(), message);
 				}

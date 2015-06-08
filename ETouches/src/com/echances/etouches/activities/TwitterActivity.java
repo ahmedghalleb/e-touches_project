@@ -110,7 +110,7 @@ public class TwitterActivity extends BaseActivity{
 					saveTwitterInfo(accessToken);
 					
 				} catch (Exception e) {
-					Log.e("Failed to login Twitter!!", e.getMessage());
+					e.printStackTrace();
 				}
 			}
 
@@ -206,7 +206,7 @@ public class TwitterActivity extends BaseActivity{
 				//TwitterAuthClient
 
 			} catch (Exception e) {
-				Log.e("Twitter Login Failed", e.getMessage());
+				e.printStackTrace();
 			}
 		}
 
