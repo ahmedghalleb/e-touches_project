@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -91,6 +93,8 @@ public class ReservationsFragment extends BaseFragment {
 		mAdapter = new MyCustomAdapter(getActivity(), mDataArray);
 		mListView.setAdapter(mAdapter);
 		
+		mListView.setOnItemClickListener(onItemClickListener);
+		
 		GetServices();
 		
 	}
@@ -149,6 +153,17 @@ public class ReservationsFragment extends BaseFragment {
 			mAdapter.getFilter().filter(s.toString());			
 		}
 	};
+	
+	OnItemClickListener onItemClickListener = new OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+				long arg3) {
+			// TODO Auto-generated method stub
+			((PlaceholderFragment)getParentFragment()).addFragmentWithHorizAnimation(ReservationDetailsFragment.newInstance());
+		}
+	};
+	
+	
 	/**
      * Method used to GetServices
      */
@@ -175,6 +190,8 @@ public class ReservationsFragment extends BaseFragment {
 				Logr.w("WS message=" + message);
 
 				if (statut) {
+					
+					//DialogsModels.showErrorDialog(getActivity(), "jsdh jdhf lhd lknbnb");
 
 					GetServicesResponse result = new GetServicesResponse();
 					try {

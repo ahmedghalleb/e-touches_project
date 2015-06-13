@@ -137,12 +137,6 @@ public class ConnectionActivity extends TwitterActivity
 			((BaseFragment) baseFragment).onResume();
 		}
 	}
-
-	@Override
-	protected void attachBaseContext (Context newBase)
-	{
-		super.attachBaseContext(new CalligraphyContextWrapper(newBase));
-	}
 	
 	@Override
 	public void onBackPressed() {

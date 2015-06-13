@@ -250,7 +250,7 @@ public class LoginFragment extends BaseFragment
 						result = ((LoginResponse) data);
 						Log.i(TAG, result.getResult().getMb());
 						
-						EtouchesApplicationCache.getInstance().saveUserId(result.getResult().getId());
+						EtouchesApplicationCache.getInstance().saveUserId(1);//result.getResult().getId());
 						getActivity().startActivity(new Intent(getActivity(),MainActivity.class));
 						getActivity().finish();
 						

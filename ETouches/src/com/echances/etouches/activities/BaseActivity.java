@@ -1,6 +1,9 @@
 package com.echances.etouches.activities;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import br.com.dina.oauth.instagram.InstagramApp;
@@ -41,6 +44,9 @@ public class BaseActivity extends ActionBarActivity{
             spiceManager.start(getApplicationContext());
             Log.e("StartedSpice","StartedSpice");
         }
+        
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         
         mApp = new InstagramApp(this, Constants.Instagram.CLIENT_ID,
         		Constants.Instagram.CLIENT_SECRET, Constants.Instagram.CALLBACK_URL);
@@ -95,5 +101,10 @@ public class BaseActivity extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         EtouchesApplicationCache.getInstance().setCurrentContext(this);
     }
+    
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+//    }
 
 }

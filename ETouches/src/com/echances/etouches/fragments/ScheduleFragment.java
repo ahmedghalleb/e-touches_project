@@ -1,11 +1,15 @@
 package com.echances.etouches.fragments;
 
+import java.io.ByteArrayOutputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +20,14 @@ import android.widget.TextView;
 
 import com.echances.etouches.R;
 import com.echances.etouches.activities.MainActivity;
+import com.echances.etouches.application.EtouchesApplicationCache;
+import com.echances.etouches.model.GalleryImage;
+import com.echances.etouches.model.Response;
+import com.echances.etouches.model.ScheduleResponse;
+import com.echances.etouches.tasks.PostBytesAsyncTask;
+import com.echances.etouches.utilities.Constants;
+import com.echances.etouches.utilities.DialogsModels;
+import com.google.gson.Gson;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -80,12 +92,13 @@ public class ScheduleFragment extends BaseFragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				changeMode();
+				sendSchedule();
 			}
 		});
     	
     }
-    
-    private void initView() {
+
+	private void initView() {
 		// TODO Auto-generated method stub
     	initCollectionView();
 				
@@ -152,7 +165,76 @@ public class ScheduleFragment extends BaseFragment {
     	
 	}
 	
+    
+    private void sendSchedule() {
+		// TODO Auto-generated method stub
+    	
+    	DialogsModels.showLoadingDialog(getActivity());
+    	
+    	ScheduleJson scheduleJson = new ScheduleJson();
+    	
+    	scheduleJson.initArrays();
+    	
+		for (int i=0; i<mAdapter.getItems().size(); i++) {
+			ScheduleItem item = mAdapter.getItems().get(i);
+			if(item.isIsData()){
+				if(item.isChecked){
+					int hour = getHour(i);
+					if(i%8==1)
+						scheduleJson.getMON().add(hour);
+					if(i%8==2)
+						scheduleJson.getTUE().add(hour);
+					if(i%8==3)
+						scheduleJson.getWED().add(hour);
+					if(i%8==4)
+						scheduleJson.getTHU().add(hour);
+					if(i%8==5)
+						scheduleJson.getFRI().add(hour);
+					if(i%8==6)
+						scheduleJson.getSAT().add(hour);
+					if(i%8==7)
+						scheduleJson.getSUN().add(hour);
+				}
+			}
+		}
+		
+		String scheduleString = new Gson().toJson(scheduleJson);
+		Log.i("schedule", scheduleString);
+		
+		byte[] bytes = scheduleString.getBytes(Charset.forName("UTF-8"));
 
+		new PostBytesAsyncTask(Constants.ParamsWebService.SERVER_NAME + Constants.ParamsWebService.SET_SCHEDULE+"?uid="+EtouchesApplicationCache.getInstance().getUserId()){
+			@Override
+			protected void onPostExecute(String result) {
+				// TODO Auto-generated method stub
+				super.onPostExecute(result);
+
+				if(result == null){
+					DialogsModels.showErrorDialog(getActivity(), "Problem to connect to server");
+				}else{
+
+					Response response = new Gson().fromJson(result, Response.class);
+					if(response.isSucces()){
+						
+					}else {
+						DialogsModels.showErrorDialog(getActivity(), response.getMessage());
+					}
+				}
+
+				DialogsModels.hideLoadingDialog();
+
+			}
+		}.execute(bytes);
+
+		
+	}
+    
+    private int getHour(int index){
+    	int hour = (index/8)*2 + 6;
+    	if(hour > 22)
+    		hour = hour - 24;
+    	return hour;
+    }
     
     public class ScheduleCollectionAdapter extends RecyclerView.Adapter<ScheduleCollectionAdapter.CustomHolder> {
 
@@ -172,6 +254,10 @@ public class ScheduleFragment extends BaseFragment {
 
         public void setItems(ArrayList<ScheduleItem> items) {
             this.items = items;
+        }
+        
+        public ArrayList<ScheduleItem> getItems() {
+            return items;
         }
 
         @Override
@@ -251,9 +337,101 @@ public class ScheduleFragment extends BaseFragment {
 
 		public void setChecked(boolean isChecked) {
 			this.isChecked = isChecked;
-		}
-
-        
+		}   
 
     }
+
+    public class ScheduleJson {
+    	
+    	ArrayList<Integer> SAT;
+    	ArrayList<Integer> SUN;
+    	ArrayList<Integer> MON;
+    	ArrayList<Integer> TUE;
+    	ArrayList<Integer> WED;
+    	ArrayList<Integer> THU;
+    	ArrayList<Integer> FRI;
+    	
+		public ArrayList<Integer> getSAT() {
+			return SAT;
+		}
+		public void setSAT(ArrayList<Integer> sAT) {
+			SAT = sAT;
+		}
+		public ArrayList<Integer> getSUN() {
+			return SUN;
+		}
+		public void setSUN(ArrayList<Integer> sUN) {
+			SUN = sUN;
+		}
+		public ArrayList<Integer> getMON() {
+			return MON;
+		}
+		public void setMON(ArrayList<Integer> mON) {
+			MON = mON;
+		}
+		public ArrayList<Integer> getTUE() {
+			return TUE;
+		}
+		public void setTUE(ArrayList<Integer> tUE) {
+			TUE = tUE;
+		}
+		public ArrayList<Integer> getWED() {
+			return WED;
+		}
+		public void setWED(ArrayList<Integer> wED) {
+			WED = wED;
+		}
+		public ArrayList<Integer> getTHU() {
+			return THU;
+		}
+		public void setTHU(ArrayList<Integer> tHU) {
+			THU = tHU;
+		}
+		public ArrayList<Integer> getFRI() {
+			return FRI;
+		}
+		public void setFRI(ArrayList<Integer> fRI) {
+			FRI = fRI;
+		}
+    	
+    	public void initArrays(){
+    		SAT = new ArrayList<Integer>();
+    		SUN = new ArrayList<Integer>();
+    		MON = new ArrayList<Integer>();
+    		TUE = new ArrayList<Integer>();
+    		WED = new ArrayList<Integer>();
+    		THU = new ArrayList<Integer>();
+    		FRI = new ArrayList<Integer>();
+    	}
+    	/*
+    	 * {
+    "SAT": [],
+    "SUN": [],
+    "MON": [],
+    "TUE": [
+        14,
+        16,
+        18,
+        20,
+        22
+    ],
+    "WED": [
+        14,
+        16,
+        18,
+        20,
+        22
+    ],
+    "THU": [
+        14,
+        16,
+        18,
+        20,
+        22
+    ],
+    "FRI": []
+}*
+    	 */
+    }
+
 }

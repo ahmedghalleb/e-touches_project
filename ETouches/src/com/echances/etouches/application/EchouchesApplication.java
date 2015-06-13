@@ -28,10 +28,15 @@ public class EchouchesApplication extends Application {
 
     @Override
     public void onCreate() {
-        //CalligraphyConfig.initDefault("Fonts/Lato-Regular.ttf", R.attr.fontPath);
+        
         super.onCreate();
 
         context = getApplicationContext();
+        
+//        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+//        .setDefaultFontPath("fonts/Lato-Regular.ttf")
+//        .setFontAttrId(R.attr.fontPath)
+//        .build());
 
         initImageLoader(getApplicationContext());
 	}

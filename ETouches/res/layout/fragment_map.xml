@@ -29,7 +29,7 @@
             android:layout_weight="1"
             android:background="@drawable/btn_cancel"
             android:text="Cancel"
-            android:textColor="@color/white"
+            android:textColor="@drawable/white_text_color_selector"
             android:textSize="15sp"
             android:layout_marginRight="1dp"/>
         
@@ -40,7 +40,7 @@
             android:layout_weight="1"
             android:background="@drawable/btn_accept"
             android:text="Accept"
-            android:textColor="@color/white"
+            android:textColor="@drawable/white_text_color_selector"
             android:textSize="15sp"/>
         
     </LinearLayout>

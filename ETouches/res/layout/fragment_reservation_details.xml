@@ -7,27 +7,13 @@
     android:orientation="vertical"
     tools:ignore="MissingPrefix" >
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/bg_top" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:src="@drawable/bg_bottom" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical" >
 
         <TextView
@@ -35,10 +21,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="10dp"
-            android:text="Name *" />
+            android:text="Service Name *" />
 
         <EditText
-            android:id="@+id/pseudo_edit_text"
+            android:id="@+id/service_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -46,7 +32,7 @@
             android:ellipsize="end"
             android:inputType="textPersonName"
             android:singleLine="true"
-            android:nextFocusDown="@+id/phone_edit_text"
+            android:nextFocusDown="@+id/service_edit_text"
             android:background="@drawable/btn_imput"
             android:paddingLeft="10dp"
             />
@@ -56,37 +42,40 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="10dp"
-            android:text="Mobile *" />
+            android:text="Service Type *" />
 
         <EditText
-            android:id="@+id/phone_edit_text"
+            android:id="@+id/service_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/ic_down"
             android:ellipsize="end"
-            android:inputType="phone"
-            android:singleLine="true"
-            android:nextFocusDown="@+id/password_edit_text"
-            android:background="@drawable/btn_imput"
-            android:paddingLeft="10dp"/>
+            android:hint="Choose service"
+            android:inputType="textPersonName"
+            android:nextFocusDown="@+id/client_edit_text"
+            android:paddingLeft="10dp"
+            android:singleLine="true" 
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="10dp"
-            android:text="Password *" />
+            android:text="Client Full Name *" />
 
         <EditText
-            android:id="@+id/password_edit_text"
+            android:id="@+id/client_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:ellipsize="end"
-            android:inputType="textPassword"
+            android:inputType="text"
             android:singleLine="true"
-            android:nextFocusDown="@+id/confirm_password_edit_text"
+            android:nextFocusDown="@+id/reservation_date_edit_text"
             android:background="@drawable/btn_imput"
             android:paddingLeft="10dp" />
 
@@ -95,15 +84,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="10dp"
-            android:text="Confirm Password *" />
+            android:text="Reservation Date *" />
 
         <EditText
-            android:id="@+id/confirm_password_edit_text"
+            android:id="@+id/reservation_date_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:ellipsize="end"
-            android:inputType="textPassword"
+            android:inputType="text"
             android:singleLine="true"
             android:background="@drawable/btn_imput"
             android:paddingLeft="10dp" />
@@ -116,16 +105,52 @@
             android:text="Required fields (*)"/>
         
     </LinearLayout>
+    
+    <LinearLayout 
+        android:id="@+id/botton_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_above="@+id/modify_button"
+        android:orientation="horizontal">
+        
+        <Button 
+            android:id="@+id/cancel_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_cancel"
+            android:text="Decline"
+            android:textColor="@drawable/white_text_color_selector"
+            android:textSize="15sp"
+            android:layout_marginRight="1dp"/>
+        
+        <Button 
+            android:id="@+id/validate_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_accept"
+            android:text="Accept"
+            android:textColor="@drawable/white_text_color_selector"
+            android:textSize="15sp"/>
+        
+    </LinearLayout>
 
     <Button
-        android:id="@+id/inscrire_button"
-        android:layout_width="wrap_content"
+        android:id="@+id/modify_button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/btn_register"
-        android:text="Register"
-        android:textColor="@drawable/white_text_color_selector" />
+        android:text="Accept And Modify"
+        android:textColor="@drawable/white_text_color_selector"
+        android:textSize="15sp" />
 
 </RelativeLayout>

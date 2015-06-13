@@ -8,11 +8,13 @@ import android.util.Log;
 import com.echances.etouches.R;
 import com.echances.etouches.activities.BaseActivity;
 import com.echances.etouches.application.EchouchesApplication;
+import com.echances.etouches.model.GetOneServiceResponse;
 import com.echances.etouches.model.GetServicesResponse;
 import com.echances.etouches.model.LoginResponse;
 import com.echances.etouches.model.Response;
 import com.echances.etouches.utilities.Constants.HTTPConstantParams;
 import com.echances.etouches.utilities.Constants.ParamsWebService;
+import com.echances.etouches.webservices.GetOneServicesRequest;
 import com.echances.etouches.webservices.GetServicesRequest;
 import com.echances.etouches.webservices.LoginRequest;
 import com.echances.etouches.webservices.SubscriptionRequest;
@@ -80,7 +82,7 @@ public class WebServiceApiImp implements WebServiceApi
 		}
 		else {
 			mWebServiceWaitingListener.OnWebServiceEnd(false,
-					"WEB_SERVICE_NO_INTERNET",
+					"Check your Internet Connection",
 					null);
 		}
 	}
@@ -112,7 +114,7 @@ public class WebServiceApiImp implements WebServiceApi
 		}
 		else {
 			mWebServiceWaitingListener.OnWebServiceEnd(false,
-					"WEB_SERVICE_NO_INTERNET",
+					"Check your Internet Connection",
 					null);
 		}
 	}
@@ -136,10 +138,36 @@ public class WebServiceApiImp implements WebServiceApi
 		}
 		else {
 			mWebServiceWaitingListener.OnWebServiceEnd(false,
-					"WEB_SERVICE_NO_INTERNET",
+					"Check your Internet Connection",
 					null);
 		}
 	}
+	
+	@Override
+	public void GetOneServices (String userId, String serviceId, WebServiceWaitingListener webServiceWaitingListener)
+	{
+		mWebServiceWaitingListener = webServiceWaitingListener;
+		mWebServiceWaitingListener.OnWebServiceWait();
+		if (EchouchesApplication.checkInternetConnection()) {
+			HashMap<String, String> params = new HashMap<String, String>();
+
+			params.put("uid", userId);
+			params.put("sid", serviceId);
+			
+			GetOneServicesRequest mGetServicesRequest = new GetOneServicesRequest(
+					params);
+			mActivity.getSpiceManager()
+					.execute(mGetServicesRequest,generateCacheKey(GetOneServicesRequest.class.getName(),
+									params), DurationInMillis.ALWAYS_EXPIRED,
+							new GetOneServiceRequestListener());
+		}
+		else {
+			mWebServiceWaitingListener.OnWebServiceEnd(false,
+					"Check your Internet Connection",
+					null);
+		}
+	}
+	
 	
 	// listener
 	private class WSRequestListener implements RequestListener<Response>
@@ -151,7 +179,7 @@ public class WebServiceApiImp implements WebServiceApi
 
 			if (mWebServiceWaitingListener != null)
 				mWebServiceWaitingListener.OnWebServiceEnd(false,
-						"WEB_SERVICE_ON_FAIL",
+						"Problem to connect to  server",
 						null);
 		}
 
@@ -187,7 +215,7 @@ public class WebServiceApiImp implements WebServiceApi
 
 			if (mWebServiceWaitingListener != null)
 				mWebServiceWaitingListener.OnWebServiceEnd(false,
-						"WEB_SERVICE_ON_FAIL",
+						"Problem to connect to  server",
 						null);
 		}
 
@@ -223,12 +251,48 @@ public class WebServiceApiImp implements WebServiceApi
 
 			if (mWebServiceWaitingListener != null)
 				mWebServiceWaitingListener.OnWebServiceEnd(false,
-						"WEB_SERVICE_ON_FAIL",
+						"Problem to connect to  server",
 						null);
 		}
 
 		@Override
 		public void onRequestSuccess (GetServicesResponse result)
+		{
+
+			Log.e("WebServiceRetour", "getStatus= " + result.getCode());
+
+			if (result.isSucces()) {
+
+				Log.e("WebServiceRetour", "response = " + result);
+				if (mWebServiceWaitingListener != null)
+					mWebServiceWaitingListener.OnWebServiceEnd(
+							true, "", result);
+			}
+			else {
+				Log.e("WebServiceRetour", "getErrorCode= " + result.getCode());
+				if (mWebServiceWaitingListener != null)
+					mWebServiceWaitingListener.OnWebServiceEnd(
+							false, result.getMessage(),
+							result);
+			}
+		}
+	}
+	
+	private class GetOneServiceRequestListener implements RequestListener<GetOneServiceResponse>
+	{
+
+		@Override
+		public void onRequestFailure (SpiceException arg0)
+		{
+
+			if (mWebServiceWaitingListener != null)
+				mWebServiceWaitingListener.OnWebServiceEnd(false,
+						"Problem to connect to  server",
+						null);
+		}
+
+		@Override
+		public void onRequestSuccess (GetOneServiceResponse result)
 		{
 
 			Log.e("WebServiceRetour", "getStatus= " + result.getCode());

@@ -1,6 +1,9 @@
 package com.echances.etouches.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.echances.etouches.api.WebServiceApi.WebServiceWaitingListener;
 
 /**
  * 
@@ -46,6 +49,8 @@ public interface WebServiceApi {
 	
 	public void GetServices (WebServiceWaitingListener webServiceWaitingListener);
 	
+	public void GetOneServices(String userId, String serviceId, WebServiceWaitingListener webServiceWaitingListener);
+	
 	/**
 	 * the call back of web service request interface
 	 * 
@@ -77,4 +82,6 @@ public interface WebServiceApi {
 		public void OnWebServiceEnd(boolean statut, String message, Object data);
 
 	}
+
+	
 }

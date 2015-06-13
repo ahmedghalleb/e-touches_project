@@ -16,6 +16,8 @@ import com.echances.etouches.activities.MainActivity;
 import com.echances.etouches.application.EchouchesApplication;
 import com.echances.etouches.application.EtouchesApplicationCache;
 import com.echances.etouches.fragments.PlaceholderFragment;
+import com.echances.etouches.utilities.DialogsModels;
+import com.echances.etouches.utilities.Utils;
 import com.echances.etouches.R;
 
 /**
@@ -96,12 +98,24 @@ public class ProfileFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				EtouchesApplicationCache.getInstance().saveUserId(0);
-				getActivity().startActivity(new Intent(getActivity(), ConnectionActivity.class));
-				getActivity().finish();
+				
+				DialogsModels.showCustomDialog(getActivity(), "Confirm", "Do you realy want to logout", new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						EtouchesApplicationCache.getInstance().saveUserId(0);
+						getActivity().startActivity(new Intent(getActivity(), ConnectionActivity.class));
+						getActivity().finish();
+					}
+				});
+				
+				
 			}
 		});
 	}
+	
+	
 	
 	
 }

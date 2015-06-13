@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -75,6 +77,16 @@ public class ServicesFragment extends BaseFragment {
 		mAdapter = new MyCustomAdapter(getActivity(), mDataArray);
 		mListView.setAdapter(mAdapter);
 		
+		mListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				// TODO Auto-generated method stub
+				((PlaceholderFragment)getParentFragment()).addFragmentWithHorizAnimation(AddServiceFragment.newInstance(1));
+			}
+		});
+		
 		GetServices();
 		
 	}
@@ -106,7 +118,7 @@ public class ServicesFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				((PlaceholderFragment)getParentFragment()).addFragmentWithHorizAnimation(AddServiceFragment.newInstance());
+				((PlaceholderFragment)getParentFragment()).addFragmentWithHorizAnimation(AddServiceFragment.newInstance(0));
 			}
 		});
 	}

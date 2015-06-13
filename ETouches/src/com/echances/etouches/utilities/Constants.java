@@ -94,8 +94,12 @@ public final class Constants
 
 		public static final String	SUBSCRIPTION			= "/reg_user.ashx";
 		public static final String	LOGIN					= "/auth_user.ashx";
-		public static final String	GETSERVICES					= "/get_services.ashx";
-		
+		public static final String	GETSERVICES				= "/get_services.ashx";
+		public static final String	GETONESERVICES			= "/ServiceProviders/get_one_service.ashx";
+		public static final String	GET_SCHEDULE			= "/ServiceProviders/get_service_provider_schedule.ashx";
+		public static final String	SET_SCHEDULE			= "/ServiceProviders/set_service_provider_schedule.ashx";
+		public static final String	UPLOAD_IMAGE			= "/ServiceProviders/upload.ashx";
+		public static final String	UPLOAD_IMAGE_URL		= "/ServiceProviders/upload_url.ashx";
 
 		public final int			timeout					= 30000;
 

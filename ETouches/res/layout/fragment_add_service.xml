@@ -92,7 +92,8 @@
             android:paddingRight="20dp"
             android:text="Add images from instagram"
             android:textColor="#0A5A87"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/upload_button"
@@ -107,13 +108,15 @@
             android:paddingRight="20dp"
             android:text="Add images from your phone"
             android:textColor="@color/grey"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:visibility="gone" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/gallery_view"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -138,7 +141,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/btn_cancel"
                 android:text="Cancel"
-                android:textColor="@color/white"
+                android:textColor="@drawable/white_text_color_selector"
                 android:textSize="15sp" />
 
             <Button
@@ -147,8 +150,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/btn_accept"
-                android:text="Accept"
-                android:textColor="@color/white"
+                android:text="Validate"
+                android:textColor="@drawable/white_text_color_selector"
                 android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>

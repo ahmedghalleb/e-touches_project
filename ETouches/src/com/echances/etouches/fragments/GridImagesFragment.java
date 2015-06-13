@@ -98,7 +98,8 @@ public class GridImagesFragment extends BaseFragment {
 					if(item.isChecked())
 						urls.add(item.getUrl());
 				}
-				mAddServiceFragment.setSelectedImagesFromInstagram(urls);
+				if(urls.size()>0)
+					mAddServiceFragment.setSelectedImagesFromInstagram(urls);
 				((PlaceholderFragment)getParentFragment()).popBackStack();
 			}
 		});
