@@ -51,6 +51,8 @@ import com.echances.etouches.model.GetOneServiceResponse;
 import com.echances.etouches.model.GetServicesResponse;
 import com.echances.etouches.model.InstagramUrlsResponse;
 import com.echances.etouches.model.OneService;
+import com.echances.etouches.model.Response;
+import com.echances.etouches.model.Service;
 import com.echances.etouches.tasks.PostBytesAsyncTask;
 import com.echances.etouches.utilities.Constants;
 import com.echances.etouches.utilities.DialogsModels;
@@ -74,6 +76,9 @@ public class AddServiceFragment extends BaseFragment {
 	ArrayList<GalleryImage> mDataArray;
 
 	private int mServiceId;
+	
+	private int selectedServiceIndex = -1;
+	private int selectedAverageHourIndex = -1;
 
 	/**
 	 * Returns a new instance of this fragment for the given section
@@ -148,8 +153,12 @@ public class AddServiceFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				((PlaceholderFragment)getParentFragment()).popBackStack();
+				if(mServiceId!=0)
+					UpdateService();
+				else
+					AddService();
 			}
+			
 		});
 
 
@@ -276,14 +285,18 @@ public class AddServiceFragment extends BaseFragment {
 
 	public void selectService(){
 
-		final String[] items = {"Service 1","Service 2","Service 3","Service 4"};
+		final String[] items = new String[((MainActivity)getActivity()).Services.size()];
+		
+		for (int i=0; i<((MainActivity)getActivity()).Services.size(); i++) {
+			items[i] = ((MainActivity)getActivity()).Services.get(i).getSEN();
+		}
 
 		new AlertDialog.Builder(getActivity()).setTitle(null)
 		.setItems(items,  new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				mServiceEditText.setText(items[which].toString());
-
+				selectedServiceIndex = which;
 				dialog.dismiss();
 			}
 		}).create().show();
@@ -298,7 +311,7 @@ public class AddServiceFragment extends BaseFragment {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				mAverageEditText.setText(items[which].toString());
-
+				selectedAverageHourIndex = which;
 				dialog.dismiss();
 			}
 		}).create().show();
@@ -479,6 +492,147 @@ public class AddServiceFragment extends BaseFragment {
 
 	}
 
+	
+	/**
+	 * Method used to GetServices
+	 */
+	public void UpdateService(){
+
+		DialogsModels.showLoadingDialog(getActivity());
+		WebServiceApiImp.getInstance((BaseActivity)getActivity()).UpdateService(EtouchesApplicationCache.getInstance().getUserId()+"", mServiceId+"", mPriceEditText.getText().toString(), "1", "desc arab", "desc english",
+				new WebServiceWaitingListener() {
+
+			@Override
+			public void OnWebServiceWait() {
+			}
+
+			@Override
+			public void OnWebServiceProgress(
+					float value) {
+			}
+
+			@Override
+			public void OnWebServiceEnd(boolean statut, String message, Object data) {
+
+				DialogsModels.hideLoadingDialog();
+
+				Logr.w("WS message=" + message);
+
+				if (statut) {
+
+					//DialogsModels.showErrorDialog(getActivity(), "jsdh jdhf lhd lknbnb");
+
+					Response result = new Response();
+					try {
+						result = ((Response) data);
+						
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+					
+					((PlaceholderFragment)getParentFragment()).popBackStack();
+
+				} else {
+					DialogsModels.showErrorDialog(getActivity(), message);
+				}
+
+			}
+		});
+
+	}
+	
+	/**
+	 * Method used to GetServices
+	 */
+	public void AddService(){
+
+		DialogsModels.showLoadingDialog(getActivity());
+		WebServiceApiImp.getInstance((BaseActivity)getActivity()).AddService(EtouchesApplicationCache.getInstance().getUserId()+"", ((MainActivity)getActivity()).Services.get(selectedServiceIndex).getID()+"", mPriceEditText.getText().toString(), "1", "desc arab", "desc english",
+				new WebServiceWaitingListener() {
+
+			@Override
+			public void OnWebServiceWait() {
+			}
+
+			@Override
+			public void OnWebServiceProgress(
+					float value) {
+			}
+
+			@Override
+			public void OnWebServiceEnd(boolean statut, String message, Object data) {
+
+				DialogsModels.hideLoadingDialog();
+
+				Logr.w("WS message=" + message);
+
+				if (statut) {
+
+					//DialogsModels.showErrorDialog(getActivity(), "jsdh jdhf lhd lknbnb");
+
+					Response result = new Response();
+					try {
+						result = ((Response) data);
+						
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+					
+					((PlaceholderFragment)getParentFragment()).popBackStack();
+
+				} else {
+					DialogsModels.showErrorDialog(getActivity(), message);
+				}
+
+			}
+		});
+
+	}
+	
+	private void deleteImage(final int position){
+		
+		GalleryImage image = mAdapter.getItems().get(position);
+		
+		DialogsModels.showLoadingDialog(getActivity());
+		WebServiceApiImp.getInstance((BaseActivity) getActivity()).DeleteImage(image.getID()+"", image.getImg(), new WebServiceWaitingListener() {
+
+			@Override
+			public void OnWebServiceWait() {
+			}
+
+			@Override
+			public void OnWebServiceProgress(
+					float value) {
+			}
+
+			@Override
+			public void OnWebServiceEnd(boolean statut, String message, Object data) {
+
+				DialogsModels.hideLoadingDialog();
+				
+				Logr.w("WS message=" + message);
+
+				if (statut) {
+
+					Response result = new Response();
+					try {
+						result = ((Response) data);
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+					
+					mAdapter.getItems().remove(position);
+					mAdapter.notifyDataSetChanged();
+					
+				} else {
+					DialogsModels.showErrorDialog(getActivity(), message);
+				}
+
+			}
+		});
+	}
 
 	public class AddServiceAdapter extends RecyclerView.Adapter<AddServiceAdapter.CustomHolder> {
 
@@ -524,8 +678,7 @@ public class AddServiceFragment extends BaseFragment {
 			holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					items.remove(position);
-					notifyDataSetChanged();
+					AddServiceFragment.this.deleteImage(position);
 				}
 			});
 		}

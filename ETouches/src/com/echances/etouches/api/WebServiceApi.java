@@ -49,7 +49,30 @@ public interface WebServiceApi {
 	
 	public void GetServices (WebServiceWaitingListener webServiceWaitingListener);
 	
+	public void GetProviderServices(String userId, WebServiceWaitingListener webServiceWaitingListener);
+	
 	public void GetOneServices(String userId, String serviceId, WebServiceWaitingListener webServiceWaitingListener);
+	
+	public void AddService(String userId, String serviceId, String p, String h, String aar, String aen,
+			WebServiceWaitingListener webServiceWaitingListener);
+	
+	public void UpdateService(String userId, String serviceId, String p, String h, String aar, String aen,
+			WebServiceWaitingListener webServiceWaitingListener);
+	
+	public void DeleteImage(String id, String name,
+			WebServiceWaitingListener webServiceWaitingListener);
+	
+	public void ForgetPassword(String mbNumber,
+			WebServiceWaitingListener webServiceWaitingListener);
+	
+	public void GetSchedule(String userId,
+			WebServiceWaitingListener webServiceWaitingListener);
+	
+	public void GetProfile (String userId, WebServiceWaitingListener webServiceWaitingListener);
+	
+	public void EditProfile (String userId, String un, String mob, String in, String out, String male, String female, String cash, WebServiceWaitingListener webServiceWaitingListener);
+	
+	public void UpdateLocation (String uid, String lng, String lat, WebServiceWaitingListener webServiceWaitingListener);
 	
 	/**
 	 * the call back of web service request interface

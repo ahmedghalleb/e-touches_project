@@ -27,9 +27,11 @@ import com.echances.etouches.api.WebServiceApiImp;
 import com.echances.etouches.api.WebServiceApi.WebServiceWaitingListener;
 import com.echances.etouches.application.EchouchesApplication;
 import com.echances.etouches.application.EtouchesApplicationCache;
+import com.echances.etouches.model.GalleryImage;
 import com.echances.etouches.model.LoginResponse;
 import com.echances.etouches.model.Response;
 import com.echances.etouches.utilities.DialogsModels;
+import com.echances.etouches.utilities.DialogsModels.OnClickEditDialog;
 import com.echances.etouches.utilities.Logr;
 import com.echances.etouches.utilities.Utils;
 
@@ -159,38 +161,18 @@ public class LoginFragment extends BaseFragment
     
     protected void SendMailForget() {
 		// TODO Auto-generated method stub
-    	AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), AlertDialog.THEME_HOLO_LIGHT);
-		builder.setTitle("Enter you Phone Number, to recover your password");
-		// Set up the input
-		final EditText input = new EditText(getActivity());
-		// Specify the type of input expected;
-		input.setInputType(InputType.TYPE_CLASS_PHONE);
-		
-		input.setHint("Enter you Phone Number");
-		
-		builder.setView(input);
-
-		// Set up the buttons
-		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { 
-		    @Override
-		    public void onClick(DialogInterface dialog, int which) {
-		        String text = input.getText().toString();
-		        Log.i(TAG, text);
-		        dialog.cancel();
-//		        getActivity().startActivity(new Intent(getActivity(),MainActivity.class));
-//				getActivity().finish();
-		    }
+		DialogsModels.showCustomEditDialog(getActivity(), "Recover your password", new OnClickEditDialog() {
+			
+			@Override
+			public void OnClickOk(String text) {
+				// TODO Auto-generated method stub
+				if(text != null && !text.equals("")){
+					SendNumber(text);
+				}else{
+					DialogsModels.showErrorDialog(getActivity(), "You must enter a Phone Number");
+				}
+			}
 		});
-		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-		    @Override
-		    public void onClick(DialogInterface dialog, int which) {
-		        dialog.cancel();
-		    }
-		});
-
-		AlertDialog alert = builder.create();
-
-		alert.show();
 	}
 
 	/**
@@ -250,7 +232,7 @@ public class LoginFragment extends BaseFragment
 						result = ((LoginResponse) data);
 						Log.i(TAG, result.getResult().getMb());
 						
-						EtouchesApplicationCache.getInstance().saveUserId(1);//result.getResult().getId());
+						EtouchesApplicationCache.getInstance().saveUserId(result.getResult().getId());
 						getActivity().startActivity(new Intent(getActivity(),MainActivity.class));
 						getActivity().finish();
 						
@@ -267,6 +249,46 @@ public class LoginFragment extends BaseFragment
 		});
 
     }
+    
+    private void SendNumber(String mbNumber){
+				
+		DialogsModels.showLoadingDialog(getActivity());
+		WebServiceApiImp.getInstance((BaseActivity) getActivity()).ForgetPassword(mbNumber, new WebServiceWaitingListener() {
+
+			@Override
+			public void OnWebServiceWait() {
+			}
+
+			@Override
+			public void OnWebServiceProgress(
+					float value) {
+			}
+
+			@Override
+			public void OnWebServiceEnd(boolean statut, String message, Object data) {
+
+				DialogsModels.hideLoadingDialog();
+				
+				Logr.w("WS message=" + message);
+
+				if (statut) {
+
+					Response result = new Response();
+					try {
+						result = ((Response) data);
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+					
+					DialogsModels.showCustomDialog(getActivity(), "Success", "Phone Number Sent with success", null);
+					
+				} else {
+					DialogsModels.showErrorDialog(getActivity(), message);
+				}
+
+			}
+		});
+	}
 
 	OAuthAuthenticationListener listener = new OAuthAuthenticationListener() {
 

@@ -1,131 +1,169 @@
-<ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context="com.echances.etouches.MainActivity$PlaceholderFragment">
+    tools:context="com.echances.etouches.MainActivity$PlaceholderFragment" >
 
-            <LinearLayout
-                android:id="@+id/layout"
-                android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/profile_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/user" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:text="Name :" />
+
+        <EditText
+            android:id="@+id/pseudo_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/btn_imput"
+            android:ellipsize="end"
+            android:inputType="textPersonName"
+            android:nextFocusDown="@+id/phone_edit_text"
+            android:paddingLeft="10dp"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:text="Mobile :" />
+
+        <EditText
+            android:id="@+id/phone_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/btn_imput"
+            android:ellipsize="end"
+            android:inputType="phone"
+            android:nextFocusDown="@+id/password_edit_text"
+            android:paddingLeft="10dp"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Settings :" />
+
+        <Switch
+            android:id="@+id/ServiceFromWorkingPlace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:text="Service From Working Place :"
+            android:textColor="@color/grey" />
+
+        <Switch
+            android:id="@+id/ServiceOutsideWorkingPlace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Service Outside Working Place :"
+            android:textColor="@color/grey" />
+
+        <Switch
+            android:id="@+id/ServiceForMale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Service For Male :"
+            android:textColor="@color/grey" />
+
+        <Switch
+            android:id="@+id/ServiceFromWomen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Service For Women :"
+            android:textColor="@color/grey" />
+
+        <Switch
+            android:id="@+id/CashonDelivery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Cash on Delivery :"
+            android:textColor="@color/grey" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Location :" />
+
+        <Button
+            android:id="@+id/location_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_imput"
+            android:drawableLeft="@drawable/ic_localisaton"
+            android:drawablePadding="10dp"
+            android:gravity="right|center_vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:text="Refresh location"
+            android:textColor="@color/grey" />
+
+        <LinearLayout
+            android:id="@+id/botton_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                
-                android:orientation="vertical" >
-                
-                <ImageView
-                android:id="@+id/profile_image_view"
-                android:layout_width="wrap_content"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_cancel"
+                android:text="Cancel"
+                android:textColor="@drawable/white_text_color_selector"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/validate_button"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/user" />
+                android:layout_weight="1"
+                android:background="@drawable/btn_accept"
+                android:text="Modify Your Profile"
+                android:textColor="@drawable/white_text_color_selector"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Name :" />
-
-                <EditText
-                    android:id="@+id/pseudo_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="@drawable/btn_imput"
-                    android:ellipsize="end"
-                    android:inputType="textPersonName"
-                    android:nextFocusDown="@+id/phone_edit_text"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Mobile :" />
-
-                <EditText
-                    android:id="@+id/phone_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="@drawable/btn_imput"
-                    android:ellipsize="end"
-                    android:inputType="phone"
-                    android:nextFocusDown="@+id/password_edit_text"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="10dp"
-                    android:text="EMail :" />
-
-                <EditText
-                    android:id="@+id/email_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@drawable/btn_imput"
-                    android:ellipsize="end"
-                    android:inputType="textEmailAddress"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true" />
-                
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:text="Kind of work :" />
-
-                <Switch
-                    android:id="@+id/home_switch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="30dp"
-                    android:text="Home :"
-                    android:textColor="@color/grey"/>
-                
-                <Switch
-                    android:id="@+id/away_switch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:text="Away :"
-                    android:textColor="@color/grey"/>
-                
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:text="Location :" />
-
-                <Button
-                    android:id="@+id/location_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_imput"
-                    android:drawableLeft="@drawable/ic_localisaton"
-                    android:drawablePadding="10dp"
-                    android:gravity="right|center_vertical"
-                    android:paddingLeft="30dp"
-                    android:paddingRight="30dp"
-                    android:text="Refresh location"
-                    android:layout_marginTop="20dp" 
-                    android:layout_marginBottom="20dp"
-                    android:textColor="@color/grey"/>
-
-            </LinearLayout>
-    </ScrollView>
+</ScrollView>

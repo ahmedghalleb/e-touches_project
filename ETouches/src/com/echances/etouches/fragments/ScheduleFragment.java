@@ -19,14 +19,19 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.echances.etouches.R;
+import com.echances.etouches.activities.BaseActivity;
 import com.echances.etouches.activities.MainActivity;
+import com.echances.etouches.api.WebServiceApiImp;
+import com.echances.etouches.api.WebServiceApi.WebServiceWaitingListener;
 import com.echances.etouches.application.EtouchesApplicationCache;
 import com.echances.etouches.model.GalleryImage;
+import com.echances.etouches.model.GetOneServiceResponse;
 import com.echances.etouches.model.Response;
 import com.echances.etouches.model.ScheduleResponse;
 import com.echances.etouches.tasks.PostBytesAsyncTask;
 import com.echances.etouches.utilities.Constants;
 import com.echances.etouches.utilities.DialogsModels;
+import com.echances.etouches.utilities.Logr;
 import com.google.gson.Gson;
 
 /**
@@ -42,6 +47,8 @@ public class ScheduleFragment extends BaseFragment {
 	ArrayList<ScheduleItem> mDataArray;
 	
 	boolean isModifyMode;
+	
+	ScheduleResponse mScheduleResponse;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -55,6 +62,7 @@ public class ScheduleFragment extends BaseFragment {
     }
 
     public ScheduleFragment() {
+    	
     }
 
     @Override
@@ -83,6 +91,7 @@ public class ScheduleFragment extends BaseFragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				changeMode();
+				fillSchedule();
 			}
 		});
     	
@@ -91,8 +100,10 @@ public class ScheduleFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				changeMode();
-				sendSchedule();
+				if(isModifyMode)
+					sendSchedule();
+				else
+					changeMode();
 			}
 		});
     	
@@ -101,6 +112,10 @@ public class ScheduleFragment extends BaseFragment {
 	private void initView() {
 		// TODO Auto-generated method stub
     	initCollectionView();
+    	
+    	mAdapter.setEnable(false);
+    	
+    	getSchedule();
 				
 	}
     
@@ -141,6 +156,9 @@ public class ScheduleFragment extends BaseFragment {
     		mCancel.setVisibility(View.GONE);
     		mAccept.setText("Modify Your Schedule");
     	}
+    	
+    	mAdapter.setEnable(isModifyMode);
+    	mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -164,14 +182,74 @@ public class ScheduleFragment extends BaseFragment {
     	((MainActivity)getActivity()).mRightImageView.setVisibility(View.GONE);
     	
 	}
-	
+    
+    private void fillSchedule() {
+		// TODO Auto-generated method stub
+    	for (int i=0; i<mAdapter.getItems().size(); i++) {
+			ScheduleItem item = mAdapter.getItems().get(i);
+			if(item.isIsData()){
+				item.setChecked(false);
+			}
+    	}
+    	
+    	for (int hour : mScheduleResponse.getMON()) {
+			mAdapter.getItems().get(getIndex(hour)+1).setChecked(true);
+		}
+    	
+    	for (int hour : mScheduleResponse.getTUE()) {
+			mAdapter.getItems().get(getIndex(hour)+2).setChecked(true);
+		}
+    	
+    	for (int hour : mScheduleResponse.getWED()) {
+			mAdapter.getItems().get(getIndex(hour)+3).setChecked(true);
+		}
+    	
+    	for (int hour : mScheduleResponse.getTHU()) {
+			mAdapter.getItems().get(getIndex(hour)+4).setChecked(true);
+		}
+    	
+    	for (int hour : mScheduleResponse.getFRI()) {
+			mAdapter.getItems().get(getIndex(hour)+5).setChecked(true);
+		}
+    	
+    	for (int hour : mScheduleResponse.getSAT()) {
+			mAdapter.getItems().get(getIndex(hour)+6).setChecked(true);
+		}
+    	
+    	for (int hour : mScheduleResponse.getSUN()) {
+			mAdapter.getItems().get(getIndex(hour)+7).setChecked(true);
+		}
+    	
+    	mAdapter.notifyDataSetChanged();
+
+	}
+    
+    private int getIndex(int hour){
+    	if(hour < 8)
+    		hour = hour + 24;
+    	
+    	int index = ((hour - 6)/2)*8;
+
+    	return index;
+    }
+
+    private void setNewSchedule(ScheduleJson newSchedule) {
+		// TODO Auto-generated method stub
+		mScheduleResponse.setMON(newSchedule.getMON());
+		mScheduleResponse.setTUE(newSchedule.getTUE());
+		mScheduleResponse.setWED(newSchedule.getWED());
+		mScheduleResponse.setTHU(newSchedule.getTHU());
+		mScheduleResponse.setFRI(newSchedule.getFRI());
+		mScheduleResponse.setSAT(newSchedule.getSAT());
+		mScheduleResponse.setSUN(newSchedule.getSUN());
+	}
     
     private void sendSchedule() {
 		// TODO Auto-generated method stub
     	
     	DialogsModels.showLoadingDialog(getActivity());
     	
-    	ScheduleJson scheduleJson = new ScheduleJson();
+    	final ScheduleJson scheduleJson = new ScheduleJson();
     	
     	scheduleJson.initArrays();
     	
@@ -215,7 +293,8 @@ public class ScheduleFragment extends BaseFragment {
 
 					Response response = new Gson().fromJson(result, Response.class);
 					if(response.isSucces()){
-						
+						changeMode();
+						setNewSchedule(scheduleJson);
 					}else {
 						DialogsModels.showErrorDialog(getActivity(), response.getMessage());
 					}
@@ -228,20 +307,71 @@ public class ScheduleFragment extends BaseFragment {
 
 		
 	}
-    
-    private int getHour(int index){
+
+	private int getHour(int index){
     	int hour = (index/8)*2 + 6;
     	if(hour > 22)
     		hour = hour - 24;
     	return hour;
     }
     
-    public class ScheduleCollectionAdapter extends RecyclerView.Adapter<ScheduleCollectionAdapter.CustomHolder> {
+    private void getSchedule(){
+    	DialogsModels.showLoadingDialog(getActivity());
+		WebServiceApiImp.getInstance((BaseActivity)getActivity()).GetSchedule(EtouchesApplicationCache.getInstance().getUserId()+"",
+				new WebServiceWaitingListener() {
+
+			@Override
+			public void OnWebServiceWait() {
+			}
+
+			@Override
+			public void OnWebServiceProgress(
+					float value) {
+				
+			}
+
+			@Override
+			public void OnWebServiceEnd(boolean statut, String message, Object data) {
+
+				DialogsModels.hideLoadingDialog();
+
+				Logr.w("WS message=" + message);
+
+				if (statut) {
+
+					mScheduleResponse = new ScheduleResponse();
+					try {
+						mScheduleResponse = ((ScheduleResponse) data);						
+
+						if(mScheduleResponse.getMON() == null)
+							mScheduleResponse.initArrays();
+						
+						fillSchedule();
+						
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+
+				} else {
+					DialogsModels.showErrorDialog(getActivity(), message);
+				}
+
+			}
+		});
+    }
+
+	public class ScheduleCollectionAdapter extends RecyclerView.Adapter<ScheduleCollectionAdapter.CustomHolder> {
 
         Context context;
         private ArrayList<ScheduleItem> items;
+        private boolean isEnable;        
 
-        public ScheduleCollectionAdapter(Context context, ArrayList<ScheduleItem> items) {
+        public void setEnable(boolean isEnable) {
+			this.isEnable = isEnable;
+		}
+
+		public ScheduleCollectionAdapter(Context context, ArrayList<ScheduleItem> items) {
             this.context = context;
             this.items = items;
         }
@@ -271,7 +401,9 @@ public class ScheduleFragment extends BaseFragment {
             	holder.checkBox.setVisibility(View.INVISIBLE);
             }
 
-            holder.checkBox.setChecked(item.isChecked());;
+            holder.checkBox.setChecked(item.isChecked());
+            
+            holder.checkBox.setEnabled(isEnable);
 
             holder.titleTextView.setText(item.getTitle());
 

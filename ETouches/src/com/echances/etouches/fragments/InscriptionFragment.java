@@ -17,6 +17,7 @@ import com.echances.etouches.activities.ConnectionActivity;
 import com.echances.etouches.activities.MainActivity;
 import com.echances.etouches.api.WebServiceApi.WebServiceWaitingListener;
 import com.echances.etouches.api.WebServiceApiImp;
+import com.echances.etouches.application.EtouchesApplicationCache;
 import com.echances.etouches.model.Response;
 import com.echances.etouches.utilities.DialogsModels;
 import com.echances.etouches.utilities.Logr;
@@ -121,8 +122,7 @@ public class InscriptionFragment extends BaseFragment {
 					} catch (Exception e) {
 						// TODO: handle exception
 					}
-					getActivity().startActivity(new Intent(getActivity(),MainActivity.class));
-					getActivity().finish();
+					((ConnectionActivity) getActivity()).popBackStack();
 				} else {
 					DialogsModels.showErrorDialog(getActivity(), message);
 				}
@@ -148,6 +148,7 @@ public class InscriptionFragment extends BaseFragment {
 	public void onResume() {
 		super.onResume();
 		((ConnectionActivity) getActivity()).showHideActionBar(true);
+		((ConnectionActivity) getActivity()).setTitleActionBar("Registration");
 	}
 
 }

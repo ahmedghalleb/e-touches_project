@@ -24,16 +24,18 @@ public class PostBytesAsyncTask extends AsyncTask<byte[], String, String>{
 		String retour;
 
 		try{
+			
+			System.setProperty("http.keepAlive", "false");
 
 			URL u = new URL(mUrl);
 			HttpURLConnection conn = (HttpURLConnection) u.openConnection();
 			conn.setDoOutput(true);
+			conn.setRequestProperty("connection", "close");
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
 			conn.setRequestProperty( "Content-Length", String.valueOf(params[0].length));
 			OutputStream os = conn.getOutputStream();
 			os.write(params[0]);
-
 
 			String respString = conn.getResponseMessage();
 

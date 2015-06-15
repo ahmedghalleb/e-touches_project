@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * 
@@ -33,6 +34,7 @@ public class ConnectionActivity extends TwitterActivity
 {
 
 	ImageView mLeftImageView;
+	TextView mTitleTextView;
 	
 	@Override
 	protected void onCreate (Bundle savedInstanceState)
@@ -50,6 +52,8 @@ public class ConnectionActivity extends TwitterActivity
 		mActionBar.setDisplayShowCustomEnabled(true);
 		
 		mLeftImageView = (ImageView) mCustomView.findViewById(R.id.leftImageView);
+		
+		mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
 		
 		mLeftImageView.setVisibility(View.VISIBLE);
 		
@@ -151,6 +155,10 @@ public class ConnectionActivity extends TwitterActivity
 			getSupportActionBar().hide();
 		
 		disableShowHideAnimation(getSupportActionBar());
+	}
+	
+	public void setTitleActionBar(String title){
+		mTitleTextView.setText(title);
 	}
 	
 	public static void disableShowHideAnimation(ActionBar actionBar) {

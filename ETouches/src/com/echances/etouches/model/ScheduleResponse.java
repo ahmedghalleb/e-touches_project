@@ -54,4 +54,14 @@ public class ScheduleResponse extends Response{
 	public void setFRI(ArrayList<Integer> fRI) {
 		FRI = fRI;
 	}
+	
+	public void initArrays(){
+		SAT = new ArrayList<Integer>();
+		SUN = new ArrayList<Integer>();
+		MON = new ArrayList<Integer>();
+		TUE = new ArrayList<Integer>();
+		WED = new ArrayList<Integer>();
+		THU = new ArrayList<Integer>();
+		FRI = new ArrayList<Integer>();
+	}
 }

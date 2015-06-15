@@ -11,11 +11,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Typeface;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -182,10 +184,70 @@ public class DialogsModels
 		// Show the dialog
 		dialog.show();
 	}
+	
+	public static void showCustomEditDialog(Context context, String title, final OnClickEditDialog listener){
+
+		// init dialog
+		final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+		// init dialog content view
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View v = inflater.inflate(R.layout.dialog_edit_text, null, false);
+		TextView titleTextView = (TextView) v.findViewById(R.id.titleTextViewDialogOk);
+		Button okButton = (Button) v.findViewById(R.id.buttonDialogOk);
+		Button cancelButton = (Button) v.findViewById(R.id.cancel_button);
+		final EditText editText = (EditText) v.findViewById(R.id.edit_text);
+
+		// set alert title
+		titleTextView.setText(title);
+		
+		editText.setInputType(InputType.TYPE_CLASS_PHONE);
+		
+		editText.setHint("Enter you Phone Number");
+		
+		if(listener != null){
+			okButton.setOnClickListener(new android.view.View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+					listener.OnClickOk(editText.getText().toString());
+				}
+			});
+		}
+		else
+		{
+			okButton.setOnClickListener(new android.view.View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+				}
+			});
+		}
+		
+		cancelButton.setOnClickListener(new android.view.View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+
+		// set dialog content view
+		dialog.setContentView(v);
+
+		// Show the dialog
+		dialog.show();
+	}
 
 	public static void hideLoadingDialog(){
 		if(mLoadingDialog != null && mLoadingDialog.isShowing())
 			mLoadingDialog.cancel();
+	}
+	
+	public interface OnClickEditDialog{
+		abstract void OnClickOk(String text);
 	}
 
 }

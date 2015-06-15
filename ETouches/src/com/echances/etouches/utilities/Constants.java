@@ -95,11 +95,19 @@ public final class Constants
 		public static final String	SUBSCRIPTION			= "/reg_user.ashx";
 		public static final String	LOGIN					= "/auth_user.ashx";
 		public static final String	GETSERVICES				= "/get_services.ashx";
+		public static final String	GET_PROVIDER_SERVICES	= "/ServiceProviders/get_provider_service.ashx";
 		public static final String	GETONESERVICES			= "/ServiceProviders/get_one_service.ashx";
+		public static final String	ADD_SERVICE	            = "/ServiceProviders/add_service.ashx";
+		public static final String	UPDATE_SERVICE	        = "/ServiceProviders/edit_service.ashx";
 		public static final String	GET_SCHEDULE			= "/ServiceProviders/get_service_provider_schedule.ashx";
 		public static final String	SET_SCHEDULE			= "/ServiceProviders/set_service_provider_schedule.ashx";
 		public static final String	UPLOAD_IMAGE			= "/ServiceProviders/upload.ashx";
 		public static final String	UPLOAD_IMAGE_URL		= "/ServiceProviders/upload_url.ashx";
+		public static final String	DELETE_IMAGE			= "/ServiceProviders/delete_provider_service_gallery.ashx";
+		public static final String	FORGET_PASSWORD			= "/Profile/forget_account.ashx";
+		public static final String	GET_PROFILE				= "/Profile/get_info.ashx";
+		public static final String	EDIT_PROFILE			= "/Profile/edit_info.ashx";
+		public static final String	UPDATE_LOCATION			= "/Profile/edit_location.ashx";
 
 		public final int			timeout					= 30000;
 

@@ -1,5 +1,7 @@
 package com.echances.etouches.activities;
 
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -28,6 +30,7 @@ import com.echances.etouches.api.WebServiceApi.WebServiceWaitingListener;
 import com.echances.etouches.fragments.PlaceholderFragment;
 import com.echances.etouches.model.GetServicesResponse;
 import com.echances.etouches.model.LoginResponse;
+import com.echances.etouches.model.Service;
 import com.echances.etouches.utilities.DialogsModels;
 import com.echances.etouches.utilities.Logr;
 
@@ -53,6 +56,8 @@ public class MainActivity extends BaseActivity{
 	RadioGroup mTabBar;
 	
 	OnGetImageListener onGetImageListener;
+	
+	public ArrayList<Service> Services;
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +68,18 @@ public class MainActivity extends BaseActivity{
         
         // Set up the action bar.
         initActionBar();
-                
-        // select first tab
-        mTabBar.check(R.id.tab_1);
-        selectTab(TAB_SERVICES_INDEX);
-        
+                        
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         
+        GetServices();
+        
     }
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
+	}
     
     private void initActionBar(){
     	LayoutInflater mInflater = LayoutInflater.from(this);
@@ -200,6 +209,58 @@ public class MainActivity extends BaseActivity{
     	Log.i(TAG,"onTabSelected : "+v.getTag());
     	selectTab(Integer.parseInt(v.getTag().toString()));
     }
+    
+    /**
+     * Method used to GetServices
+     */
+    public void GetServices(){
+
+    	DialogsModels.showLoadingDialog(this);
+		WebServiceApiImp.getInstance(this).GetServices(
+		new WebServiceWaitingListener() {
+
+			@Override
+			public void OnWebServiceWait() {
+			}
+
+			@Override
+			public void OnWebServiceProgress(
+					float value) {
+			}
+
+			@Override
+			public void OnWebServiceEnd(boolean statut, String message, Object data) {
+
+				DialogsModels.hideLoadingDialog();
+				
+				Logr.w("WS message=" + message);
+
+				if (statut) {
+
+					GetServicesResponse result = new GetServicesResponse();
+					try {
+						result = ((GetServicesResponse) data);
+						Log.i(TAG, result.getServics().get(0).getSEN());
+						Services = result.getServics();
+						
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+					
+					// select first tab
+			        mTabBar.check(R.id.tab_1);
+					selectTab(TAB_SERVICES_INDEX);
+					
+				} else {
+					DialogsModels.showErrorDialog(MainActivity.this, message);
+				}
+
+			}
+		});
+
+    }
+
     
   @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -13,8 +13,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.echances.etouches.activities.BaseActivity;
 import com.echances.etouches.activities.MainActivity;
+import com.echances.etouches.api.WebServiceApiImp;
+import com.echances.etouches.api.WebServiceApi.WebServiceWaitingListener;
+import com.echances.etouches.application.EtouchesApplicationCache;
 import com.echances.etouches.fragments.PlaceholderFragment;
+import com.echances.etouches.model.Response;
+import com.echances.etouches.utilities.DialogsModels;
+import com.echances.etouches.utilities.Logr;
 import com.echances.etouches.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
@@ -28,17 +35,24 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * A placeholder fragment containing a simple view.
  */
 public class MapFragment extends BaseFragment {
+	
+	private static String PARAM_1 = "lng";
+	private static String PARAM_2 = "lat";
 
 	private GoogleMap mMap;
 	private Button mCancel, mAccept;
+	
+	String mLng, mLat;
+	
     /**
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static MapFragment newInstance() {
+    public static MapFragment newInstance(String lng, String lat) {
         MapFragment fragment = new MapFragment();
         Bundle args = new Bundle();
-        //args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        args.putString(PARAM_1, lng);
+        args.putString(PARAM_2, lat);
         fragment.setArguments(args);
         return fragment;
     }
@@ -62,7 +76,14 @@ public class MapFragment extends BaseFragment {
     	// TODO Auto-generated method stub
     	super.onActivityCreated(savedInstanceState);
     	
+    	mLng = getArguments().getString(PARAM_1);
+    	
+    	mLat = getArguments().getString(PARAM_2);
+    	
     	setUpMapIfNeeded();
+    	
+    	if(!mLat.equals(""))
+    		mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(mLat), Double.parseDouble(mLng))).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin)));
     	
     	mCancel.setOnClickListener(new OnClickListener() {
 			
@@ -78,7 +99,7 @@ public class MapFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				((PlaceholderFragment)getParentFragment()).popBackStack();
+				updateLocation();
 			}
 		});
     	
@@ -101,6 +122,8 @@ public class MapFragment extends BaseFragment {
 				// TODO Auto-generated method stub
 				Log.i("MapFragment", "LatLng : "+latLng.latitude+" "+latLng.longitude);
 				mMap.clear();// if (marker != null) {marker.remove();}
+				mLng = latLng.longitude+"";
+				mLat = latLng.latitude+"";
 				mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin)));
 			}
 			
@@ -127,4 +150,46 @@ public class MapFragment extends BaseFragment {
 		((MainActivity)getActivity()).mLeftImageView.setVisibility(View.VISIBLE);
     	((MainActivity)getActivity()).mRightImageView.setVisibility(View.GONE);
 	}
+	
+	private void updateLocation(){
+    	DialogsModels.showLoadingDialog(getActivity());
+		WebServiceApiImp.getInstance((BaseActivity)getActivity()).UpdateLocation(EtouchesApplicationCache.getInstance().getUserId()+"", mLng, mLat, new WebServiceWaitingListener() {
+
+			@Override
+			public void OnWebServiceWait() {
+			}
+
+			@Override
+			public void OnWebServiceProgress(
+					float value) {
+				
+			}
+
+			@Override
+			public void OnWebServiceEnd(boolean statut, String message, Object data) {
+
+				DialogsModels.hideLoadingDialog();
+
+				Logr.w("WS message=" + message);
+
+				if (statut) {
+
+					Response mResponse = new Response();
+					try {
+						mResponse = ((Response) data);						
+						((PlaceholderFragment)getParentFragment()).popBackStack();
+						
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+
+				} else {
+					DialogsModels.showErrorDialog(getActivity(), message);
+				}
+
+			}
+		});
+    }
+	
 }
