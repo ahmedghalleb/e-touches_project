@@ -69,7 +69,7 @@ public final class Constants
 
 	/**
 	 * 
-	 * class used for Facebook Utilities constants
+	 * class used for Instagram Utilities constants
 	 * 
 	 */
 	public static class Instagram

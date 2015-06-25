@@ -49,6 +49,7 @@ import com.echances.etouches.application.EtouchesApplicationCache;
 import com.echances.etouches.model.GalleryImage;
 import com.echances.etouches.model.GetOneServiceResponse;
 import com.echances.etouches.model.GetServicesResponse;
+import com.echances.etouches.model.Hour;
 import com.echances.etouches.model.InstagramUrlsResponse;
 import com.echances.etouches.model.OneService;
 import com.echances.etouches.model.Response;
@@ -272,15 +273,22 @@ public class AddServiceFragment extends BaseFragment {
 		mAdapter = new AddServiceAdapter(getActivity(), mDataArray);
 		mGaleryView.setAdapter(mAdapter);
 
-
 	}
 
 	private void fillFields(OneService service){
 		mServiceEditText.setText(service.getSEN());
 		mPriceEditText.setText(service.getP()+"");
-		mAverageEditText.setText(service.getD()+"");
+		mAverageEditText.setText(getHourStringForId(service.getD()));
 		mAdapter.setItems(service.getGallery());
 		mAdapter.notifyDataSetChanged();
+	}
+	
+	private String getHourStringForId(int hourId){
+		for (Hour hour : ((MainActivity)getActivity()).hours) {
+			if(hour.getValue() == hourId)
+				return hour.getText();
+		}
+		return "0:30";
 	}
 
 	public void selectService(){
@@ -304,8 +312,12 @@ public class AddServiceFragment extends BaseFragment {
 
 	public void selectTime(){
 
-		final String[] items = {"1 hour","2 hours","3 hours"};
-
+		final String[] items = new String[((MainActivity)getActivity()).hours.size()];
+		
+		for (int i=0; i<((MainActivity)getActivity()).hours.size(); i++) {
+			items[i] = ((MainActivity)getActivity()).hours.get(i).getText();
+		}
+		
 		new AlertDialog.Builder(getActivity()).setTitle(null)
 		.setItems(items,  new DialogInterface.OnClickListener() {
 			@Override
@@ -499,7 +511,7 @@ public class AddServiceFragment extends BaseFragment {
 	public void UpdateService(){
 
 		DialogsModels.showLoadingDialog(getActivity());
-		WebServiceApiImp.getInstance((BaseActivity)getActivity()).UpdateService(EtouchesApplicationCache.getInstance().getUserId()+"", mServiceId+"", mPriceEditText.getText().toString(), "1", "desc arab", "desc english",
+		WebServiceApiImp.getInstance((BaseActivity)getActivity()).UpdateService(EtouchesApplicationCache.getInstance().getUserId()+"", mServiceId+"", mPriceEditText.getText().toString(), ((MainActivity)getActivity()).hours.get(selectedAverageHourIndex).getValue()+"", "desc arab", "desc english",
 				new WebServiceWaitingListener() {
 
 			@Override
@@ -548,7 +560,7 @@ public class AddServiceFragment extends BaseFragment {
 	public void AddService(){
 
 		DialogsModels.showLoadingDialog(getActivity());
-		WebServiceApiImp.getInstance((BaseActivity)getActivity()).AddService(EtouchesApplicationCache.getInstance().getUserId()+"", ((MainActivity)getActivity()).Services.get(selectedServiceIndex).getID()+"", mPriceEditText.getText().toString(), "1", "desc arab", "desc english",
+		WebServiceApiImp.getInstance((BaseActivity)getActivity()).AddService(EtouchesApplicationCache.getInstance().getUserId()+"", ((MainActivity)getActivity()).Services.get(selectedServiceIndex).getID()+"", mPriceEditText.getText().toString(), ((MainActivity)getActivity()).hours.get(selectedAverageHourIndex).getValue()+"", "desc arab", "desc english",
 				new WebServiceWaitingListener() {
 
 			@Override

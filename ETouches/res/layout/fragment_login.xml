@@ -30,7 +30,7 @@
             android:cursorVisible="true"
             android:layout_above="@+id/password_edit_text"
             android:layout_marginBottom="20dp"
-            android:hint="Phone Number"
+            android:hint="Phone Number (Ex 009665xxxxxxxx)"
             android:text=""
             android:inputType="phone"
             android:singleLine="true"

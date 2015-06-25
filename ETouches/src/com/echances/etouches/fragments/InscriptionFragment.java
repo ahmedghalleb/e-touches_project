@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +19,7 @@ import com.echances.etouches.activities.MainActivity;
 import com.echances.etouches.api.WebServiceApi.WebServiceWaitingListener;
 import com.echances.etouches.api.WebServiceApiImp;
 import com.echances.etouches.application.EtouchesApplicationCache;
+import com.echances.etouches.model.LoginResponse;
 import com.echances.etouches.model.Response;
 import com.echances.etouches.utilities.DialogsModels;
 import com.echances.etouches.utilities.Logr;
@@ -110,7 +112,7 @@ public class InscriptionFragment extends BaseFragment {
 			@Override
 			public void OnWebServiceEnd(boolean statut, String message, Object data) {
 
-				DialogsModels.hideLoadingDialog();
+				
 				
 				Logr.w("WS message=" + message);
 
@@ -122,8 +124,10 @@ public class InscriptionFragment extends BaseFragment {
 					} catch (Exception e) {
 						// TODO: handle exception
 					}
-					((ConnectionActivity) getActivity()).popBackStack();
+					//((ConnectionActivity) getActivity()).popBackStack();
+					Login();
 				} else {
+					DialogsModels.hideLoadingDialog();
 					DialogsModels.showErrorDialog(getActivity(), message);
 				}
 
@@ -131,6 +135,57 @@ public class InscriptionFragment extends BaseFragment {
 		});
 	}
 	
+	/**
+     * Method used to Login
+     */
+    public void Login(){
+
+    	//DialogsModels.showLoadingDialog(getActivity());
+		WebServiceApiImp.getInstance((BaseActivity) getActivity()).Login(mPhoneEditText.getText().toString(),
+				mPasswordEditText.getText().toString(),
+		new WebServiceWaitingListener() {
+
+			@Override
+			public void OnWebServiceWait() {
+			}
+
+			@Override
+			public void OnWebServiceProgress(
+					float value) {
+			}
+
+			@Override
+			public void OnWebServiceEnd(boolean statut, String message, Object data) {
+
+				DialogsModels.hideLoadingDialog();
+				
+				Logr.w("WS message=" + message);
+
+				if (statut) {
+
+					LoginResponse result = new LoginResponse();
+					try {
+						result = ((LoginResponse) data);
+						Log.i(TAG, result.getResult().getMb());
+						
+						EtouchesApplicationCache.getInstance().saveUserId(result.getResult().getId());
+						getActivity().startActivity(new Intent(getActivity(),MainActivity.class));
+						getActivity().finish();
+						
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+					
+				} else {
+					DialogsModels.showErrorDialog(getActivity(), message);
+				}
+
+			}
+		});
+
+    }
+    
 	private boolean checkPWD() {
 		if (!mPseudoEditText.getText().toString().equals("") && !mPhoneEditText.getText().toString().equals("") &&
 				!mPasswordEditText.getText().toString().equals("") && !mConfirmPasswordEditText.getText().toString().equals("") &&

@@ -25,6 +25,9 @@
 
     <!-- Permission to receive Google Maps -->
     <uses-permission android:name="com.arshad.map.permission.MAPS_RECEIVE" />
+    
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />	
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <!-- Maps API needs OpenGL ES 2.0. -->
     <uses-feature

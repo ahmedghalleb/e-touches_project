@@ -29,6 +29,7 @@ import com.echances.etouches.api.WebServiceApiImp;
 import com.echances.etouches.api.WebServiceApi.WebServiceWaitingListener;
 import com.echances.etouches.fragments.PlaceholderFragment;
 import com.echances.etouches.model.GetServicesResponse;
+import com.echances.etouches.model.Hour;
 import com.echances.etouches.model.LoginResponse;
 import com.echances.etouches.model.Service;
 import com.echances.etouches.utilities.DialogsModels;
@@ -58,6 +59,7 @@ public class MainActivity extends BaseActivity{
 	OnGetImageListener onGetImageListener;
 	
 	public ArrayList<Service> Services;
+	public ArrayList<Hour> hours;
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +75,19 @@ public class MainActivity extends BaseActivity{
         
         GetServices();
         
+        initHours();
+        
     }
 	
+	private void initHours() {
+		// TODO Auto-generated method stub
+		hours = new ArrayList<Hour>();
+		hours.add(new Hour(30, "0:30"));
+		hours.add(new Hour(60, "1:00"));
+		hours.add(new Hour(90, "1:30"));
+		hours.add(new Hour(120, "2:00"));
+	}
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		// TODO Auto-generated method stub

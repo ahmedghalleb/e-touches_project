@@ -120,10 +120,16 @@ public class DialogsModels
 
 	public static void showLoadingDialog(Context activity){
 
+		showLoadingDialog(activity, "Loading ...");
+
+	}
+	
+	public static void showLoadingDialog(Context activity, String message){
+
 		mLoadingDialog = new ProgressDialog(activity,
 				ProgressDialog.THEME_HOLO_LIGHT);
 
-		mLoadingDialog.setMessage("Loading ...");
+		mLoadingDialog.setMessage(message);
 
 		mLoadingDialog.setIndeterminate(true);
 
